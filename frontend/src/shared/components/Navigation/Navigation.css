@@ -35,6 +35,15 @@
     margin-left: 0.5em;
 }
 
+.sidenav a:hover {
+  background-color: lightblue;
+  color: var(--primary-color);
+}
+
+.sidenav a.active:hover {
+  color: white;
+}
+
 .link:hover {
     cursor: pointer;
     color: white;
