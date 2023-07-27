@@ -3,9 +3,8 @@ import "./TopBar.css";
 
 const TopBar = () => {
   return (
-    <div className="topbar">
-      <h1 className="topbar-username">Username</h1>
-      <button className="topbar-button">Log out</button>
+    <div>
+      <h1 className="topbar-username">Web App</h1>
     </div>
   );
 };

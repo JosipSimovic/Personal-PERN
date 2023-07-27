@@ -4,25 +4,28 @@ import Navigation from "./shared/components/Navigation/Navigation";
 import "./App.css";
 import "./style-constants.css";
 import TopBar from "./shared/components/Navigation/TopBar";
-import Naslovna from "./naslovna/Naslovna";
-import Profil from "./profil/Profil";
+import Shop from "./shop/Shop";
+import Profile from "./profile/Profile";
 
 function App() {
   let routes = (
     <Routes>
-      <Route
-        path="/"
-        element={<Naslovna />}
-      />
-      <Route path="/profil" element={<Profil />} />
+      <Route path="/" element={<Shop />} />
+      <Route path="/profile" element={<Profile />} />
     </Routes>
   );
 
   return (
     <Router>
-      <TopBar />
-      <Navigation />
-      <main className="main">{routes}</main>
+      <div className="topbar">
+        <TopBar />
+      </div>
+      <div className="dashboard">
+        <div className="sidebar">
+          <Navigation />
+        </div>
+        <div className="content">{routes}</div>
+      </div>
     </Router>
   );
 }

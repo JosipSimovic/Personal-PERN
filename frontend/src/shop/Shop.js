@@ -2,7 +2,7 @@ import React from "react";
 
 const Naslovna = () => {
     return (
-        <h1>Naslovna</h1>
+        <h1 style={{textAlign: 'center'}}>Shop</h1>
     )
 }
 

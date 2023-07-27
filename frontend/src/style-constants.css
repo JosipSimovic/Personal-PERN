@@ -1,6 +1,11 @@
-body {
+:root {
+    /* COLORS */
     --primary-color: #003559;
     --secondary-color: #006daa;
-    --topbar-height: 5em;
-    --navigation-width: 20em;
+    --highlight-color: rgb(198, 225, 255);
+    --light-blue: rgb(243, 248, 255);
+
+    /* NAV */
+    --topbar-height: 7%;
+    --navigation-width: 10%;
 }

@@ -1,5 +1,42 @@
-.main {
-  margin-left: var(--navigation-width);
-  margin-top: var(--topbar-height);
-  padding: 1em;
+body {
+  width: 100%;
+  overflow-y: auto;
+  margin: 0;
+}
+
+.topbar {
+  height: var(--topbar-height);
+  width: 100%;
+  background-color: transparent;
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  padding-left: 1em;
+}
+
+.dashboard {
+  display: flex;
+  top: var(--topbar-height);
+  height: calc(100% - var(--topbar-height));
+  width: 100%;
+  position: fixed;
+  overflow-y: auto;
+}
+
+.sidebar {
+  background-color: transparent;
+  height: 100%;
+  width: var(--navigation-width);
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+}
+
+.content {
+  margin-right: 2em;
+  flex: 5;
+  width: 80%;
+  display: inline-block;
+  background-color: white;
+  border-radius: 1em;
 }
