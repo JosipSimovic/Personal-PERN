@@ -33,31 +33,29 @@ body {
 }
 .content {
   margin-right: 2em;
+  margin-bottom: 1em;
   flex: 5;
   width: 80%;
   display: inline-block;
   background-color: white;
   border-radius: 1em;
+  overflow-y: auto;
 }
 
-/* transitions.css */
-.slide-enter {
-  opacity: 0;
-  transform: translateX(100%);
+/* Scrollbar */
+
+.content::-webkit-scrollbar {
+  width: 1em;
 }
 
-.slide-enter-active {
-  opacity: 1;
-  transform: translateX(0%);
-  transition: opacity 300ms, transform 300ms;
+.content::-webkit-scrollbar-track {
+  background-color: lightgrey;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
 }
 
-.slide-exit {
-  opacity: 1;
-}
-
-.slide-exit-active {
-  opacity: 0;
-  transform: translateX(-100%);
-  transition: opacity 300ms, transform 300ms;
+.content::-webkit-scrollbar-thumb {
+  background-color: grey;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
 }

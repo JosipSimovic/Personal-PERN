@@ -23,7 +23,7 @@
 }
 
 .sidenav a.active {
-  background-color: var(--highlight-color);
+  background-color: var(--highlight-blue);
   border-top-right-radius: 1em;
   border-bottom-right-radius: 1em;
   border-top-left-radius: 0;
@@ -45,7 +45,7 @@
 }
 
 .sidenav a:not(.active):hover {
-  background-color: rgb(226, 226, 226);
+  background-color: var(--highlight-grey);
   color: black;
 }
 

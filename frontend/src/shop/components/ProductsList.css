@@ -1,7 +1,12 @@
 .products-list {
+    text-align: center;
     list-style: none;
-    display: inline-flex;
     flex-wrap: wrap;
-    width: 100%;
-    overflow: hidden;
+    height: 100%;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+.products-list li {
+    display: inline-block;
 }

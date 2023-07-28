@@ -2,10 +2,14 @@
     /* COLORS */
     --primary-color: #003559;
     --secondary-color: #006daa;
-    --highlight-color: rgb(210, 231, 255);
+    --highlight-blue: rgb(210, 231, 255);
+    --highlight-grey: rgb(226, 226, 226);
     --light-blue: rgb(243, 248, 255);
 
     /* NAV */
     --topbar-height: 10%;
     --navigation-width: 10%;
+
+    /* FILTER BAR */
+    --filter-height: 10em;
 }

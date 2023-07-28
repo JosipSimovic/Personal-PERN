@@ -3,7 +3,6 @@ import {
   Route,
   BrowserRouter as Router,
   Routes,
-  useLocation,
 } from "react-router-dom";
 import Navigation from "./shared/components/Navigation/Navigation";
 import TopBar from "./shared/components/Navigation/TopBar";

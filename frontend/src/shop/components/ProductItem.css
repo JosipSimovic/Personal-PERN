@@ -22,15 +22,6 @@
   font-weight: bold;
 }
 
-.buy-button {
-    float: right;
-  color: white;
-  background-color: green;
-  border: none;
-  padding: 0.5em;
-  border-radius: 0.5em;
-}
-
 .amount {
   float: left;
   height: auto;
@@ -49,16 +40,26 @@
 }
 
 .amount button:hover {
-    cursor: pointer;
-    background-color: lightgray;
+  cursor: pointer;
+  background-color: lightgray;
 }
 
 .amount .counter {
-    border: 1px solid lightgray;
-    display: inline-flex;
+  border: 1px solid lightgray;
+  display: inline-flex;
   align-items: center;
-    padding-left: 1em;
-    padding-right: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.buy-button {
+  float: right;
+  font-size: large;
+  color: white;
+  background-color: green;
+  border: none;
+  padding: 0.5em;
+  border-radius: 0.5em;
 }
 
 .buy-button:hover {

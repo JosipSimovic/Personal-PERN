@@ -29,7 +29,7 @@ const ProductItem = () => {
           <hr />
           <div className="price-div">
             <p style={{ float: "left" }}>Price:</p>
-            <p className="price">20.00</p>
+            <p className="price">20.00 €</p>
           </div>
           <div className="product-footer">
             <div className="amount">
