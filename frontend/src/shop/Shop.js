@@ -1,8 +1,9 @@
 import React from "react";
+import ProductsList from "./components/ProductsList";
 
 const Naslovna = () => {
     return (
-        <h1 style={{textAlign: 'center'}}>Shop</h1>
+        <ProductsList />
     )
 }
 

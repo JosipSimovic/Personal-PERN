@@ -1,24 +1,25 @@
 .sidenav a {
   color: black;
-  padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 25px;
+  font-size: 1em;
   display: block;
   text-align: center;
-  padding: 0.1em;
+  padding: 0.5em;
   margin-bottom: 0.5em;
   border-top-right-radius: 1em;
   border-bottom-right-radius: 1em;
-  margin-right: 0.5em;
+  width: 80%;
+  transition: 0.2s;
 }
 
 .sidenav a.shop {
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: bold;
 }
 
 .sidenav a:hover {
   background-color: rgba(223, 223, 223, 0.493);
+  padding-left: 1em;
 }
 
 .sidenav a.active {
@@ -33,19 +34,23 @@
   background-color: lightgreen;
 }
 
+.sidenav a.cart {
+  font-size: 1.5em;
+}
+
 .sidenav button.logout {
   position: fixed;
   text-align: center;
   bottom: 0;
 }
 
-.sidenav a:hover {
-  background-color: lightblue;
-  color: var(--primary-color);
+.sidenav a:not(.active):hover {
+  background-color: rgb(226, 226, 226);
+  color: black;
 }
 
-.sidenav a.active:hover {
-  color: white;
+.sidenav a.shop:hover {
+  background-color: lightgreen;
 }
 
 .link:hover {
@@ -56,7 +61,7 @@
 .sidenav button.logout {
   position: fixed;
   bottom: 1em;
-  left: calc(var(--navigation-width)/3);
+  left: calc(var(--navigation-width) * 0.2);
   background-color: rgb(247, 68, 68);
   color: white;
   border-radius: 1em;

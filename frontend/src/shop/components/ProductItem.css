@@ -1,0 +1,67 @@
+.image-div {
+  text-align: center;
+}
+
+.image-div img {
+  max-width: 200px;
+}
+
+.product-info {
+  text-align: center;
+}
+
+.product-info .price-div {
+  font-size: 1.2em;
+  width: 100%;
+  text-align: left;
+  display: inline-block;
+}
+
+.product-info .price-div .price {
+  float: right;
+  font-weight: bold;
+}
+
+.buy-button {
+    float: right;
+  color: white;
+  background-color: green;
+  border: none;
+  padding: 0.5em;
+  border-radius: 0.5em;
+}
+
+.amount {
+  float: left;
+  height: auto;
+  width: 20%;
+  display: flex;
+}
+
+.amount button {
+  background: #f2f2f2;
+  border-radius: 4px;
+  padding: 8px 5px 8px 5px;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+  text-align: center;
+  min-width: 2em;
+}
+
+.amount button:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+.amount .counter {
+    border: 1px solid lightgray;
+    display: inline-flex;
+  align-items: center;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.buy-button:hover {
+  cursor: pointer;
+  background-color: darkgreen;
+}

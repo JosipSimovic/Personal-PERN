@@ -2,10 +2,10 @@
     /* COLORS */
     --primary-color: #003559;
     --secondary-color: #006daa;
-    --highlight-color: rgb(198, 225, 255);
+    --highlight-color: rgb(210, 231, 255);
     --light-blue: rgb(243, 248, 255);
 
     /* NAV */
-    --topbar-height: 7%;
+    --topbar-height: 10%;
     --navigation-width: 10%;
 }
