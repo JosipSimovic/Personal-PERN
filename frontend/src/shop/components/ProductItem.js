@@ -3,7 +3,7 @@ import Card from "../../shared/components/UI/Card";
 
 import "./ProductItem.css";
 
-const ProductItem = () => {
+const ProductItem = (props) => {
   const [itemAmount, setItemAmount] = useState(1);
 
   const amountMinusHandler = () => {
@@ -19,19 +19,23 @@ const ProductItem = () => {
       <Card>
         <div className="image-div">
           <img
-            src="https://fastly.picsum.photos/id/630/1000/500.jpg?hmac=Gqq2vKu-mwHkWYw-s6bk2XzaGJ25DxGy8cqZMFvhBuA"
+            src={props.image}
             alt="alt"
           />
         </div>
         <div className="product-info">
-          <h4>Test</h4>
-          <p>Test info about the product.</p>
+          <h4>{props.name}</h4>
+          <p className="description">{props.description}</p>
           <hr />
+          <div className="product-footer">
+          <div className="price-div">
+            <p style={{ float: "left" }}>Color:</p>
+            <p className="price">{props.color.toUpperCase()}</p>
+          </div>
           <div className="price-div">
             <p style={{ float: "left" }}>Price:</p>
-            <p className="price">20.00 €</p>
+            <p className="price">{props.price}</p>
           </div>
-          <div className="product-footer">
             <div className="amount">
               <button onClick={amountMinusHandler} disabled={itemAmount <= 1}>
                 -

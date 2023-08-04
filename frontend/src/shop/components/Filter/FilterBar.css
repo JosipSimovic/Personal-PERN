@@ -2,7 +2,7 @@
   position: sticky;
   background-color: white;
   width: 100%;
-  z-index: 999;
+  z-index: 1;
   top: 0;
   text-align: center;
   box-shadow: 0 0.5em 5px -5px lightgrey;
@@ -24,10 +24,7 @@
   background-color: var(--highlight-grey);
 }
 
-.filter-div {
-  background-color: yellow;
-  transition: all 0.5s ease 0s;
-}
+
 
 .search {
     float: right;
@@ -46,7 +43,7 @@
     background-color: transparent;
     border: none;
     width: 0em;
-    transition: all 0.5s ease 0s;
+    transition: all 0.3s ease 0s;
 }
 
 .search input:focus {

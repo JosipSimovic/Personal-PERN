@@ -1,0 +1,78 @@
+.filter-div {
+  position: absolute;
+  background-color: white;
+  width: var(--filter-width);
+  height: 100%;
+  z-index: 100;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+  overflow: auto;
+  border-right: 1px solid lightgray;
+}
+
+.filter-div-header {
+    background-color: white;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 0.5em 0.5em lightgrey;
+}
+
+.filter-div-content {
+  padding: 1em;
+}
+
+.close-icon {
+  font-size: 1.5em;
+  float: right;
+  padding: 0.5em;
+}
+
+.close-icon:hover {
+  cursor: pointer;
+}
+
+.slide-in-left-enter {
+  transform: translateX(-100%);
+}
+
+.slide-in-left-enter-active {
+  transform: translateX(0);
+  transition: all 0.5s;
+}
+
+.slide-in-left-exit {
+  transform: translateX(0%);
+}
+
+.slide-in-left-exit-active {
+  transform: translateX(-100%);
+  transition: all 0.5s;
+}
+
+/* Scrollbar */
+
+.filter-div::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+.filter-div::-webkit-scrollbar-track {
+  background-color: lightgrey;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+}
+
+.filter-div::-webkit-scrollbar-thumb {
+  background-color: grey;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+}
+
+.apply-filters-button {
+  position: absolute;
+  bottom: 1em;
+  width: 90%;
+}
+
+.apply-filters-button button {
+  width: 100%;
+}
