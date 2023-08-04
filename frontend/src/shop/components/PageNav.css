@@ -1,0 +1,47 @@
+.nav-button {
+    background: #f2f2f2;
+    border-radius: 4px;
+    padding: 8px 5px 8px 5px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    text-align: center;
+    min-width: 2em;
+  }
+  
+  .nav-button:hover {
+    cursor: pointer;
+    background-color: lightgray;
+  }
+  
+  .nav-button-arrow {
+    background: white;
+    border-radius: 4px;
+    padding: 8px 5px 8px 5px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    text-align: center;
+    min-width: 2em;
+  }
+  
+  .nav-button-arrow:last-of-type {
+    border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em;
+  }
+  
+  .nav-button-arrow:first-of-type {
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+  }
+  
+  .nav-button-arrow:not(:disabled):hover {
+    cursor: pointer;
+    background-color: lightgray;
+  }
+  
+  .active-page {
+    background-color: var(--highlight-blue);
+  }
+  
+  .active-page:hover {
+    background-color: var(--primary-color);
+  }

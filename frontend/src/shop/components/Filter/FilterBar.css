@@ -5,9 +5,9 @@
   z-index: 1;
   top: 0;
   text-align: center;
-  box-shadow: 0 0.5em 5px -5px lightgrey;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  box-shadow: 0 0.5em 0.5em -5px lightgrey;
+  padding-top: 1em;
+  padding-bottom: 1em;
   transition: all 0.5s;
 }
 
@@ -50,4 +50,15 @@
     border: none;
     outline: none;
     width: 30em;
+}
+
+.filters-list {
+  display: flex;
+  list-style: none;
+}
+
+.filters-list li {
+  padding: 1em;
+  background-color: var(--highlight-grey);
+  border-radius: 1em;
 }

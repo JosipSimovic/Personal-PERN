@@ -1,0 +1,59 @@
+.login-form-div {
+  background-color: white;
+  padding: 2em;
+  border-radius: 1em;
+  width: 30rem;
+  text-align: center;
+}
+
+.form {
+  max-width: 400px;
+  margin: 0 auto;
+  color: black;
+}
+
+.form input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--primary-color);
+  padding: 1em;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.form span {
+    color: red;
+    display: block;
+}
+
+.form label {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.form .submit-button {
+    border-color: transparent;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 1em;
+}
+
+.form .submit-button:hover {
+    background-color: var(--primary-color-darker);
+}
+
+.mode-button {
+    background-color: white;
+    border: 1px solid gray;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    color: black;
+}
+
+.mode-button:hover {
+    background-color: var(--primary-color);
+    border: 1px solid white;
+    color: white;
+}

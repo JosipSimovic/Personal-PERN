@@ -2,7 +2,6 @@ import React from "react";
 import { CSSTransition } from "react-transition-group";
 import Slider from "@mui/material/Slider";
 import Button from "../../../shared/components/UI/Button";
-import { useFilter } from "../../../shared/hooks/filter-hook";
 import { Checkbox, FormGroup } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
@@ -13,10 +12,11 @@ function valuetext(value) {
 }
 
 const FilterSide = (props) => {
-  const [filters, priceChangeHandler, colorCheckHandler] = useFilter();
+  const { values, priceChangeHandler, colorCheckHandler, resetSideFilters } = props.filters;
 
   const filterClickHandler = () => {
-    console.log(filters);
+
+    props.reloadProducts();
   };
 
   return (
@@ -46,25 +46,31 @@ const FilterSide = (props) => {
                 <h4>Price (€)</h4>
                 <Slider
                   getAriaLabel={() => "Price range"}
-                  value={filters.price}
+                  value={values.price}
                   onChange={priceChangeHandler}
                   valueLabelDisplay="auto"
                   getAriaValueText={valuetext}
-                  max={filters.maxPrice}
+                  max={values.maxPrice}
                 />
               </div>
             </div>
             <div className="row">
               <div className="col-12">
                 <h4>Colors</h4>
-                <ul>
-                  <FormGroup onChange={colorCheckHandler}>
-                    {props.products.map((item) => (
+                <ul className="colors-list">
+                  <FormGroup>
+                    {props.productColors.map((item) => (
                       <FormControlLabel
-                        key={item.id}
+                        key={item}
                         control={<Checkbox />}
-                        label={item.color.toUpperCase()}
-                        value={item.color}
+                        label={item.toUpperCase()}
+                        value={item}
+                        onClick={colorCheckHandler}
+                        checked={
+                          props.filters.values.colors.includes(item)
+                            ? true
+                            : false
+                        }
                       />
                     ))}
                   </FormGroup>
@@ -74,7 +80,10 @@ const FilterSide = (props) => {
           </div>
           <div className="row apply-filters-button">
             <div className="col-12">
-              <Button text={"Apply"} onClick={filterClickHandler} />
+              <Button onClick={resetSideFilters}>Remove filters</Button>
+            </div>
+            <div className="col-12">
+              <Button onClick={filterClickHandler}>Apply</Button>
             </div>
           </div>
         </div>

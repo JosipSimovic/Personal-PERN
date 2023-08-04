@@ -1,3 +1,8 @@
+.topbar {
+  height: var(--topbar-height);
+  padding: 0.5em;
+}
+
 .topbar-username {
   display: inline;
   float: left;

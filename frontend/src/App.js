@@ -8,6 +8,7 @@ import Cart from "./cart/Cart";
 
 import "./App.css";
 import "./style-constants.css";
+import Login from "./login/Login";
 
 function App() {
   const [navExpanded, setNavExpanded] = useState(false);
@@ -21,14 +22,13 @@ function App() {
       <Route path="/" element={<Shop />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 
   return (
     <Router>
-      <div className="topbar">
-        <TopBar />
-      </div>
+      <TopBar />
       <div className="dashboard">
         <div
           onMouseEnter={expandNavHandler}

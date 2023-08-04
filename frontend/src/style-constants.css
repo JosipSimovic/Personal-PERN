@@ -1,12 +1,13 @@
 :root {
     /* COLORS */
-    --secondary-color: #006daa;
+    --primary-color: #006daa;
+    --primary-color-darker: #005281;
     --highlight-blue: rgb(210, 231, 255);
     --highlight-grey: rgb(226, 226, 226);
     --light-blue: rgb(243, 248, 255);
 
     /* NAV */
-    --topbar-height: 10%;
+    --topbar-height: 5%;
     --navigation-width: 15%;
 
     /* FILTER BAR */

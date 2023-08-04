@@ -34,7 +34,7 @@ const ProductItem = (props) => {
           </div>
           <div className="price-div">
             <p style={{ float: "left" }}>Price:</p>
-            <p className="price">{props.price}</p>
+            <p className="price">{props.price} €</p>
           </div>
             <div className="amount">
               <button onClick={amountMinusHandler} disabled={itemAmount <= 1}>

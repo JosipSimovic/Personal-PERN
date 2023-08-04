@@ -14,6 +14,7 @@
     background-color: white;
     position: sticky;
     top: 0;
+    z-index: 999;
     box-shadow: 0 0.5em 0.5em lightgrey;
 }
 
@@ -68,11 +69,18 @@
 }
 
 .apply-filters-button {
-  position: absolute;
+  position: fixed;
+  background-color: white;
   bottom: 1em;
-  width: 90%;
+  width: calc(var(--filter-width) - 1em) ;
 }
 
 .apply-filters-button button {
   width: 100%;
+}
+
+.colors-list {
+  width: 100%;
+  padding: 0;
+  columns: 2;
 }
