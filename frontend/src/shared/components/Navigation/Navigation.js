@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../../context/auth-context";
 
 import "./Navigation.css";
 
 const Navigation = (props) => {
+  const auth = useContext(AuthContext);
+
   const [showText, setShowText] = useState(false);
 
   useEffect(() => {
@@ -30,46 +33,34 @@ const Navigation = (props) => {
           Webshop
         </span>
       </NavLink>
-      <NavLink to="/cart" className="cart">
-        <i className="fa-solid fa-cart-shopping"></i>{" "}
-        <span
-          style={
-            !showText
-              ? { fontSize: 0, opacity: 0 }
-              : { visibility: "visible", opacity: 1 }
-          }
-        >
-          Cart
-        </span>
-      </NavLink>
-      <NavLink to="/profile">
-        <i className="fa-solid fa-user"></i>{" "}
-        <span
-          style={
-            !showText
-              ? { fontSize: 0, opacity: 0 }
-              : { visibility: "visible", opacity: 1 }
-          }
-        >
-          Profile
-        </span>
-      </NavLink>
-      <button
-        className="logout"
-        style={!props.expanded ? { left: "1%" } : {}}
-        to="/"
-      >
-        <span
-          style={
-            !showText
-              ? { fontSize: 0, opacity: 0 }
-              : { visibility: "visible", opacity: 1 }
-          }
-        >
-          Log out
-        </span>{" "}
-        <i className="fa-solid fa-right-from-bracket"></i>
-      </button>
+      {auth.isLoggedIn && (
+        <React.Fragment>
+          <NavLink to="/cart" className="cart">
+            <i className="fa-solid fa-cart-shopping"></i>{" "}
+            <span
+              style={
+                !showText
+                  ? { fontSize: 0, opacity: 0 }
+                  : { visibility: "visible", opacity: 1 }
+              }
+            >
+              Cart
+            </span>
+          </NavLink>
+          <NavLink to="/profile">
+            <i className="fa-solid fa-user"></i>{" "}
+            <span
+              style={
+                !showText
+                  ? { fontSize: 0, opacity: 0 }
+                  : { visibility: "visible", opacity: 1 }
+              }
+            >
+              Profile
+            </span>
+          </NavLink>
+        </React.Fragment>
+      )}
     </div>
   );
 };

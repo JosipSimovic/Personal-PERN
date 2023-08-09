@@ -8,7 +8,7 @@ const { faker } = require("@faker-js/faker");
 const getProductsWithFilters = async (req, res, next) => {
   let { page, filters } = req.body;
   let numOfProducts = filters.numOfProducts;
-  page = (page - 1) * numOfProducts;
+  page = page - 1;
 
   // GET ALL COLORS //
   let count_price_result;
@@ -27,9 +27,8 @@ const getProductsWithFilters = async (req, res, next) => {
 
     let colorsInfo = (await pool.query(queries.getProductColors)).rows[0]
       .grouped_colors;
-    console.log(colorsInfo);
 
-    let maxPages = Math.floor(products.length / numOfProducts);
+    let maxPages = Math.ceil(count / numOfProducts);
 
     res.status(200);
     res.json({

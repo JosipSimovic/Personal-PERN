@@ -98,9 +98,13 @@ const FilterSide = (props) => {
                               <Checkbox style={{ color: colorInfo.hex }} />
                             }
                             label={colorInfo.color_name.toUpperCase()}
-                            value={id}
+                            value={colorInfo.color_name}
                             onClick={colorCheckHandler}
-                            checked={colors.includes(id) ? true : false}
+                            checked={
+                              colors.includes(colorInfo.color_name)
+                                ? true
+                                : false
+                            }
                           />
                         </React.Fragment>
                       )

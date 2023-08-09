@@ -20,7 +20,11 @@ app.use(bodyParser.json());
 
 // ROUTES //
 app.use("/api/webshop", webshopRoutes);
-
 app.use("/api/user", userRoutes);
+
+app.use((error, req, res, next) => {
+  res.status(error.code || 500);
+  res.json({ message: error.message || "An unknown error ocurred." });
+});
 
 app.listen(5000);

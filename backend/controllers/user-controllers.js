@@ -10,21 +10,30 @@ const signup = async (req, res, next) => {
   try {
     hashedPassword = await bcrypt.hash(password, 12);
   } catch (e) {
-    next(new HttpError("Could not encrypt password", 500));
+    return next(new HttpError("Could not encrypt password", 500));
   }
 
+  let userId;
   try {
-    const result = pool.query(queries.insertNewUser, [
+    const result = await pool.query(queries.insertNewUser, [
       username,
       email,
       hashedPassword,
     ]);
+    userId = result.rows[0].user_id;
   } catch (e) {
-    next(new HttpError("Could not create new user.", 500));
+    return next(new HttpError("Could not create new user.", 500));
   }
 
   res.status(201);
-  res.json({ message: "User successfully created: " + username });
+  res.json({
+    message: `User successfully created.`,
+    createdUser: {
+      userId,
+      username,
+      email,
+    },
+  });
 };
 
 exports.signup = signup;

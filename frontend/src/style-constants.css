@@ -1,15 +1,15 @@
 :root {
-    /* COLORS */
-    --primary-color: #006daa;
-    --primary-color-darker: #005281;
-    --highlight-blue: rgb(210, 231, 255);
-    --highlight-grey: rgb(226, 226, 226);
-    --light-blue: rgb(243, 248, 255);
+  /* COLORS */
+  --primary-color: #006daa;
+  --primary-color-darker: #005281;
+  --highlight-blue: rgb(210, 231, 255);
+  --highlight-grey: rgb(226, 226, 226);
+  --light-blue: rgb(243, 248, 255);
 
-    /* NAV */
-    --topbar-height: 5%;
-    --navigation-width: 15%;
+  /* NAV */
+  --topbar-height: 5%;
+  --navigation-width: 10%;
 
-    /* FILTER BAR */
-    --filter-width: 20em;
+  /* FILTER BAR */
+  --filter-width: 20em;
 }

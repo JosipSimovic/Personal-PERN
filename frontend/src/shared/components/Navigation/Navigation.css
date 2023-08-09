@@ -8,7 +8,7 @@
   margin-bottom: 0.5em;
   border-top-right-radius: 1em;
   border-bottom-right-radius: 1em;
-  width: 80%;
+  width: 95%;
   transition: all 0.2s;
 }
 
@@ -32,7 +32,7 @@
   border-bottom-right-radius: 1em;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  padding-right: 1em;
+  padding-left: 1em;
 }
 
 .sidenav a.shop.active {
@@ -80,10 +80,9 @@
 }
 
 .sidenav button.logout:hover {
-    cursor: pointer;
-    background-color: lightcoral;
+  cursor: pointer;
+  background-color: lightcoral;
 }
-
 
 @media screen and (max-height: 450px) {
   .sidenav {

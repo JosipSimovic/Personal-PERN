@@ -3,7 +3,6 @@ const getCountAndMaxPrice = () => {
     "SELECT COUNT(p.*) AS count, MAX(p.price) as max_price " +
     "FROM products p " +
     "JOIN product_colors c ON p.color = c.id";
-  console.log(query);
   return query;
 };
 
@@ -31,8 +30,9 @@ const setQueryFilters = (filters, page) => {
   let whereClause = [];
   // Check if the 'name' filter is provided and add it to the WHERE clause
   if (filters.name && filters.name.trim() !== "") {
-    whereClause.push(`LOWER(name) LIKE $${values.length + 1}`);
-    values.push(`%${filters.name.toLowerCase()}%`);
+    whereClause.push(
+      `LOWER(name) LIKE '%${filters.name.trim().toLowerCase()}%'`
+    );
   }
 
   // Check if the 'colors' filter is provided and add it to the WHERE clause
@@ -78,13 +78,11 @@ const setQueryFilters = (filters, page) => {
       break;
   }
   whereCondition += sortCondition;
-  console.log(whereCondition);
 
   // Add number of products to get based on user page
   whereCondition += ` LIMIT ${filters.numOfProducts} OFFSET ${
     page * filters.numOfProducts
   }`;
-  console.log(whereCondition);
 
   return whereCondition;
 };

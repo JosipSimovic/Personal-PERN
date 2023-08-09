@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSendRequest } from "../shared/hooks/http-request-hook";
 import LoadingSpinner from "../shared/components/UI/LoadingSpinner";
 
 import "./Login.css";
+import ErrorModal from "../shared/components/UI/ErrorModal";
+import { AuthContext } from "../context/auth-context";
 
 const isValidEmail = (email) =>
   // eslint-disable-next-line no-useless-escape
@@ -12,6 +14,8 @@ const isValidEmail = (email) =>
   );
 
 const Login = () => {
+  const auth = useContext(AuthContext);
+
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, error, sendRequest, clearError] = useSendRequest();
 
@@ -20,17 +24,28 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data) => {
-    try {
-      const responseData = await sendRequest(
-        `${process.env.REACT_APP_USER_URL}/`,
-        "POST"
-      );
-    } catch (e) {}
+    if (!isLogin) {
+      try {
+        const responseData = await sendRequest(
+          `${process.env.REACT_APP_USER_URL}/signup`,
+          "POST",
+          JSON.stringify({
+            username: data.username,
+            email: data.email,
+            password: data.password,
+          }),
+          { "Content-Type": "application/json" }
+        );
+        auth.login(responseData.createdUser.userId, "test_token");
+      } catch (e) {}
+    } else {
+      console.log("Login");
+      auth.login();
+    }
   };
 
   return (
@@ -38,7 +53,10 @@ const Login = () => {
       style={{ height: "100%", backgroundColor: "var(--primary-color" }}
       className="container-fluid d-flex align-items-center justify-content-center"
     >
-      {isLoading && <LoadingSpinner asOverlay />}
+      {isLoading && (
+        <LoadingSpinner asOverlay message="Signing up. Please wait..." />
+      )}
+      <ErrorModal error={error} onCancel={clearError} />
       <div className="row login-form-div">
         <div className="col-12">
           <form className="form" onSubmit={handleSubmit(onSubmit)}>

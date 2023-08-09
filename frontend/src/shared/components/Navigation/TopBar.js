@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import "./TopBar.css";
 import Button from "../UI/Button";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../context/auth-context";
+import { ToastContainer, notify } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import "./TopBar.css";
 
 const TopBar = () => {
+  const auth = useContext(AuthContext);
+
   return (
     <div className="topbar">
       <div className="container-fluid">
@@ -14,9 +20,17 @@ const TopBar = () => {
           </div>
           <div className="col-8"></div>
           <div className="col-2 text-end">
-            <Link to={"/login"}>
-              <Button>Sign in</Button>
-            </Link>
+            {!auth.isLoggedIn && (
+              <Link to={"/login"}>
+                <Button>Sign in</Button>
+              </Link>
+            )}
+            {auth.isLoggedIn && (
+              <Button onClick={() => auth.logout()}>
+                Log out <i class="fa-solid fa-right-from-bracket"></i>
+              </Button>
+            )}
+            <button>TEST</button>
           </div>
         </div>
       </div>

@@ -87,6 +87,7 @@ const FilterBar = (props) => {
                   type="text"
                   ref={inputRef}
                   onKeyDown={enterPressHandler}
+                  defaultValue={props.filters.name}
                 />
                 <button
                   className="search-button"
@@ -123,16 +124,20 @@ const FilterBar = (props) => {
                           value[1] !== props.filters.maxPrice) ||
                         (value[0] !== 0 && value[1] !== 0)
                       ) {
-                      return (
-                        <li key={value}>
-                          {value[0]} - {value[1]} €
-                        </li>
-                      );
+                        return (
+                          <li key={value}>
+                            {value[0]} - {value[1]} €
+                          </li>
+                        );
                       }
                       break;
                     case "name":
                       if (value.trim() !== "") {
-                        return <li key={value}>Name: <b>{value}</b></li>;
+                        return (
+                          <li key={value}>
+                            Name: <b>{value}</b>
+                          </li>
+                        );
                       }
                       break;
                     default:

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ProductsList from "./components/ProductsList";
 import FilterBar from "./components/Filter/FilterBar";
-
-import "./Shop.css";
-import "./components/Filter/FilterSide.css";
 import PageNav from "./components/PageNav";
 import { useSendRequest } from "../shared/hooks/http-request-hook";
 import { useDispatch, useSelector } from "react-redux";
 import { setMaxPrice } from "../features/webshop/filtersSlice";
+
+import "./Shop.css";
+import "./components/Filter/FilterSide.css";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -34,7 +34,6 @@ const Shop = () => {
 
       dispatch(setMaxPrice(responseData.maxPrice));
 
-      console.log(responseData.colors);
       setProductColors(responseData.colors);
       setProducts(responseData.products);
       setMaxPageNumber(responseData.maxPages);
