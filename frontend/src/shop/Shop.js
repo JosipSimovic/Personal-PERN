@@ -6,31 +6,35 @@ import "./Shop.css";
 import "./components/Filter/FilterSide.css";
 import PageNav from "./components/PageNav";
 import { useSendRequest } from "../shared/hooks/http-request-hook";
-import { useFilter } from "../shared/hooks/filter-hook";
+import { useDispatch, useSelector } from "react-redux";
+import { setMaxPrice } from "../features/webshop/filtersSlice";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, error, sendRequest, clearError] = useSendRequest();
-  const filters = useFilter();
   let [currentPage, setCurrentPage] = useState(1);
   let [maxPageNumber, setMaxPageNumber] = useState();
   const [filterOpen, setFilterOpen] = useState(false);
   const [productColors, setProductColors] = useState([]);
 
+  const filters = useSelector((state) => state.filters);
+  const dispatch = useDispatch();
+
   const loadProducts = async () => {
-    console.log(filters.values);
     try {
       const responseData = await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/webshop`,
         "POST",
         JSON.stringify({
           page: currentPage,
-          filters: filters.values,
+          filters: filters,
         }),
         { "Content-Type": "application/json" }
       );
-      filters.values.maxPrice = responseData.maxPrice;
 
+      dispatch(setMaxPrice(responseData.maxPrice));
+
+      console.log(responseData.colors);
       setProductColors(responseData.colors);
       setProducts(responseData.products);
       setMaxPageNumber(responseData.maxPages);
@@ -43,13 +47,15 @@ const Shop = () => {
     loadProducts();
   }, [
     currentPage,
-    filters.values.sort,
-    filters.values.numOfProducts,
-    filters.values.name,
+    filters.sort,
+    filters.numOfProducts,
+    filters.name,
+    filters.price,
+    filters.colors,
   ]);
 
   const filterOpenHandler = () => {
-    setFilterOpen(filterOpen ? false : true);
+    setFilterOpen(!filterOpen);
   };
 
   return (
@@ -72,7 +78,7 @@ const Shop = () => {
           isLoading={isLoading}
           products={products}
         />
-        {products && products.length > 0 && (
+        {products && maxPageNumber > 0 && (
           <PageNav
             setCurrentPage={setCurrentPage}
             currentPage={currentPage}

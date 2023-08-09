@@ -3,24 +3,6 @@ const bodyParser = require("body-parser");
 
 const webshopRoutes = require("./routes/webshop-routes");
 
-const typeorm = require("typeorm");
-
-// DATABASE
-const EntitySchema = typeorm.EntitySchema;
-
-const dataSource = new typeorm.DataSource({
-  type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "postgres",
-  password: "root",
-  database: "webshop",
-  synchronize: true,
-  entities: [require("./database/entity/Product")],
-});
-
-dataSource.initialize();
-
 const app = express();
 
 app.use((req, res, next) => {
@@ -32,9 +14,10 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
   next();
 });
+
 app.use(bodyParser.json());
 
-
+// ROUTES //
 app.use("/api/webshop", webshopRoutes);
 
 app.listen(5000);

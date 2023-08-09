@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import Slider from "@mui/material/Slider";
 import Button from "../../../shared/components/UI/Button";
@@ -6,17 +6,47 @@ import { Checkbox, FormGroup } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 import "./FilterSide.css";
+import { useDispatch } from "react-redux";
+import {
+  setFilterColors,
+  setFilterPrice,
+} from "../../../features/webshop/filtersSlice";
 
 function valuetext(value) {
   return `${value} €`;
 }
 
 const FilterSide = (props) => {
-  const { values, priceChangeHandler, colorCheckHandler, resetSideFilters } = props.filters;
+  const [priceRange, setPriceRange] = useState(props.filters.price);
+  const [colors, setColors] = useState(props.filters.colors);
 
-  const filterClickHandler = () => {
+  const dispatch = useDispatch();
 
-    props.reloadProducts();
+  const priceChangeHandler = (event) => {
+    setPriceRange(event.target.value);
+  };
+
+  const colorCheckHandler = (event) => {
+    if (event.target.tagName !== "INPUT") return;
+    let newColor = event.target.value;
+    let checked = event.target.checked;
+    let colorsArray = [...colors];
+    if (checked) {
+      colorsArray.push(newColor);
+    } else {
+      colorsArray = colorsArray.filter((color) => color !== newColor);
+    }
+    setColors(colorsArray);
+  };
+
+  const resetSideFilters = (event) => {
+    setPriceRange([0, props.filters.maxPrice]);
+    setColors([]);
+  };
+
+  const filterClickHandler = async () => {
+    dispatch(setFilterColors(colors));
+    dispatch(setFilterPrice(priceRange));
   };
 
   return (
@@ -46,11 +76,11 @@ const FilterSide = (props) => {
                 <h4>Price (€)</h4>
                 <Slider
                   getAriaLabel={() => "Price range"}
-                  value={values.price}
+                  value={priceRange}
                   onChange={priceChangeHandler}
                   valueLabelDisplay="auto"
                   getAriaValueText={valuetext}
-                  max={values.maxPrice}
+                  max={Number(props.filters.maxPrice)}
                 />
               </div>
             </div>
@@ -59,20 +89,22 @@ const FilterSide = (props) => {
                 <h4>Colors</h4>
                 <ul className="colors-list">
                   <FormGroup>
-                    {props.productColors.map((item) => (
-                      <FormControlLabel
-                        key={item}
-                        control={<Checkbox />}
-                        label={item.toUpperCase()}
-                        value={item}
-                        onClick={colorCheckHandler}
-                        checked={
-                          props.filters.values.colors.includes(item)
-                            ? true
-                            : false
-                        }
-                      />
-                    ))}
+                    {Object.entries(props.productColors).map(
+                      ([id, colorInfo]) => (
+                        <React.Fragment>
+                          <FormControlLabel
+                            key={id}
+                            control={
+                              <Checkbox style={{ color: colorInfo.hex }} />
+                            }
+                            label={colorInfo.color_name.toUpperCase()}
+                            value={id}
+                            onClick={colorCheckHandler}
+                            checked={colors.includes(id) ? true : false}
+                          />
+                        </React.Fragment>
+                      )
+                    )}
                   </FormGroup>
                 </ul>
               </div>

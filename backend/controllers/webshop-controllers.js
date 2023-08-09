@@ -1,77 +1,84 @@
-const DATABASE = require("../DUMMY_DATABASE").DATABASE;
+const pool = require("../database");
+const queries = require("../queries/webshop-queries");
 
-const getWebshop = async (req, res, next) => {
+const HttpError = require("../models/http-error");
+
+const { faker } = require("@faker-js/faker");
+
+const getProductsWithFilters = async (req, res, next) => {
   let { page, filters } = req.body;
   let numOfProducts = filters.numOfProducts;
   page = (page - 1) * numOfProducts;
 
-  let products = DATABASE.products;
+  // GET ALL COLORS //
+  let count_price_result;
+  try {
+    count_price_result = (await pool.query(queries.getCountAndMaxPrice()))
+      .rows[0];
+  } catch (e) {
+    console.log(e);
+  }
+  let { count, max_price: maxPrice } = count_price_result;
 
-  Object.entries(filters).forEach(([key, value]) => {
-    switch (key) {
-      case "name":
-        if (value && value.trim() !== "") {
-          let filteredProducts = products.filter((product) =>
-            product.name.toLowerCase().includes(value.toLowerCase())
-          );
-          products = filteredProducts;
-        }
-        break;
-      case "sort":
-        switch (value) {
-          case 0:
-            products.sort((a, b) => a.name.localeCompare(b.name));
-            break;
-          case 1:
-            products.sort((a, b) => b.name.localeCompare(a.name));
-            break;
-          case 2:
-            products.sort((a, b) => Number(a.price) - Number(b.price));
-            break;
-          case 3:
-            products.sort((a, b) => Number(b.price) - Number(a.price));
-            break;
-          default:
-            break;
-        }
-      case "colors":
-        if (filters.colors.length > 0) {
-          let filteredProducts = products.filter((product) =>
-            filters.colors.includes(product.color)
-          );
-          products = filteredProducts;
-        }
-      case "price":
-        if (filters.price[1] !== 0) {
-          let filteredProducts = products.filter(
-            (product) =>
-              filters.price[0] <= product.price &&
-              product.price <= filters.price[1]
-          );
-          products = filteredProducts;
-        }
-      default:
-        break;
-    }
-  });
+  try {
+    let products = (
+      await pool.query(queries.getProductsWithFilters(filters, page))
+    ).rows;
 
-  let colors = [...new Set(DATABASE.products.map((item) => item.color))];
+    let colorsInfo = (await pool.query(queries.getProductColors)).rows[0]
+      .grouped_colors;
+    console.log(colorsInfo);
 
-  let prices = [
-    ...new Set(DATABASE.products.map((item) => Number(item.price))),
-  ];
-  let maxPrice = Math.ceil(...prices);
+    let maxPages = Math.floor(products.length / numOfProducts);
 
-  let maxPages = Math.floor(products.length / numOfProducts);
-  products = products.slice(page, page + numOfProducts);
+    res.status(200);
+    res.json({
+      products: products,
+      maxPages: maxPages,
+      maxPrice: maxPrice,
+      colors: colorsInfo,
+    });
+  } catch (e) {
+    throw e;
+  }
+};
 
-  res.status(200);
+const insertNewProduct = async (req, res, next) => {
+  const { name, description, color, image, price } = req.body;
+  let result;
+
+  // FILL DATABASE FOR TESTING //
+  // try {
+  //   for (let i = 0; i < 240; i++) {
+  //     result = await pool.query(queries.insertNewProduct, [
+  //       faker.commerce.product(),
+  //       faker.commerce.productDescription(),
+  //       faker.number.int({ min: 2, max: 11 }),
+  //       null,
+  //       faker.commerce.price({ dec: 2 }),
+  //     ]);
+  //   }
+  // } catch (e) {
+  //   next(new HttpError("Something went wrong: " + e, 400));
+  // }
+
+  try {
+    result = await pool.query(queries.insertNewProduct, [
+      name,
+      description,
+      color,
+      image,
+      price,
+    ]);
+  } catch (e) {
+    next(new HttpError("Something went wrong: " + e, 400));
+  }
+
+  res.status(201);
   res.json({
-    products: products,
-    maxPages: maxPages,
-    maxPrice: maxPrice,
-    colors: colors,
+    message: "Product added.",
   });
 };
 
-exports.getWebshopByPage = getWebshop;
+exports.getProductsWithFilters = getProductsWithFilters;
+exports.insertNewProduct = insertNewProduct;

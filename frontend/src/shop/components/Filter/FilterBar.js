@@ -1,15 +1,23 @@
 import React, { useRef } from "react";
 import FilterSide from "./FilterSide";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { useDispatch } from "react-redux";
+import {
+  setFilterName,
+  setNumOfProducts,
+  setSort,
+} from "../../../features/webshop/filtersSlice";
 
 import "./FilterBar.css";
 
 const FilterBar = (props) => {
   const inputRef = useRef();
+  const activeFiltersRef = useRef();
+  const dispatch = useDispatch();
 
   const searchProductHandler = (event) => {
     if (inputRef.current === document.activeElement) {
-      props.filters.nameChange(inputRef.current.value);
+      dispatch(setFilterName(inputRef.current.value));
     } else {
       inputRef.current.focus();
     }
@@ -17,7 +25,7 @@ const FilterBar = (props) => {
 
   const enterPressHandler = (e) => {
     if (e.key === "Enter") {
-      props.filters.nameChange(inputRef.current.value);
+      dispatch(setFilterName(inputRef.current.value));
     }
   };
 
@@ -48,8 +56,8 @@ const FilterBar = (props) => {
                 <Select
                   labelId="sort-by-label"
                   label="Sort by"
-                  onChange={props.filters.sortChangeHandler}
-                  defaultValue={0}
+                  onChange={(e) => dispatch(setSort(e.target.value))}
+                  value={props.filters.sort}
                 >
                   <MenuItem value={0}>A &rarr; Z</MenuItem>
                   <MenuItem value={1}>Z &rarr; A</MenuItem>
@@ -64,9 +72,8 @@ const FilterBar = (props) => {
                 <Select
                   labelId="num-of-products"
                   label="Products per page"
-                  onChange={props.filters.numOfProductsChangeHandler}
-                  defaultValue={20}
-                  value={props.filters.values.numOfProducts}
+                  onChange={(e) => dispatch(setNumOfProducts(e.target.value))}
+                  value={props.filters.numOfProducts}
                 >
                   <MenuItem value={20}>20</MenuItem>
                   <MenuItem value={50}>50</MenuItem>
@@ -91,13 +98,14 @@ const FilterBar = (props) => {
               </div>
             </div>
           </div>
+          <br />
           <div className="row align-items-center">
-            <div className="col-2">
-              <h5 style={{ float: "left" }}>Active filters:</h5>
+            <div className="col-2 d-flex align-items-center text-start">
+              <h5 className="m-0">Active filters:</h5>
             </div>
-            <div className="col-10">
-              <ul className="filters-list">
-                {Object.entries(props.filters.values).map((entry) => {
+            <div className="col-10 d-flex align-items-center text-start">
+              <ul className="filters-list" ref={activeFiltersRef}>
+                {Object.entries(props.filters).map((entry) => {
                   let [key, value] = entry;
                   switch (key) {
                     case "colors":
@@ -109,11 +117,34 @@ const FilterBar = (props) => {
                         );
                       }
                       return colorsArray;
+                    case "price":
+                      if (
+                        (value[0] !== 0 &&
+                          value[1] !== props.filters.maxPrice) ||
+                        (value[0] !== 0 && value[1] !== 0)
+                      ) {
+                      return (
+                        <li key={value}>
+                          {value[0]} - {value[1]} €
+                        </li>
+                      );
+                      }
+                      break;
+                    case "name":
+                      if (value.trim() !== "") {
+                        return <li key={value}>Name: <b>{value}</b></li>;
+                      }
+                      break;
                     default:
-                      return;
+                      return null;
                   }
+                  return null;
                 })}
               </ul>
+              {activeFiltersRef.current &&
+                activeFiltersRef.current.children.length === 0 && (
+                  <h5>No active filters.</h5>
+                )}
             </div>
           </div>
         </div>

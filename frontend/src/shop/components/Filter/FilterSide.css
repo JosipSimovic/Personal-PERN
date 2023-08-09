@@ -11,11 +11,11 @@
 }
 
 .filter-div-header {
-    background-color: white;
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    box-shadow: 0 0.5em 0.5em lightgrey;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 0.5em 0.5em lightgrey;
 }
 
 .filter-div-content {
@@ -72,7 +72,7 @@
   position: fixed;
   background-color: white;
   bottom: 1em;
-  width: calc(var(--filter-width) - 1em) ;
+  width: calc(var(--filter-width) - 1em);
 }
 
 .apply-filters-button button {

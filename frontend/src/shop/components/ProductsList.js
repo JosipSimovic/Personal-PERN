@@ -10,9 +10,11 @@ const ProductsList = (props) => {
       {props.isLoading && (
         <LoadingSpinner asOverlay message="Loading products..." />
       )}
-      {props.products.length === 0 && (
-        <div className="container-fluid d-flex align-items-center justify-content-center">
-          <h1>No items found.</h1>
+      {!props.isLoading && props.products.length === 0 && (
+        <div className="error-div">
+          <div className="container-fluid d-flex align-items-center justify-content-center">
+            <h1>No items found.</h1>
+          </div>
         </div>
       )}
       {!props.isLoading && (
@@ -25,7 +27,7 @@ const ProductsList = (props) => {
               description={item.description}
               price={item.price}
               image={item.image}
-              color={item.color}
+              color={item.color_name}
             />
           ))}
         </ul>

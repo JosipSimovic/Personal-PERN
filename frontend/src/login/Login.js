@@ -15,8 +15,6 @@ const Login = () => {
 
   const onSubmit = (data) => console.log(data);
 
-  console.log(watch("example")); // watch input value by passing the name of it
-
   return (
     <div
       style={{ height: "100%", backgroundColor: "var(--primary-color" }}
