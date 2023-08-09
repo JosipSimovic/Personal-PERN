@@ -12,10 +12,13 @@ import Profile from "./profile/Profile";
 import Cart from "./cart/Cart";
 import Login from "./login/Login";
 import { AuthContext } from "./context/auth-context";
+import useAuth from "./shared/hooks/auth-hook";
+import { ToastContainer, toast } from "react-toastify";
 
 import "./App.css";
 import "./style-constants.css";
-import useAuth from "./shared/hooks/auth-hook";
+
+window.toast = toast;
 
 function App() {
   const [userId, token, login, logout] = useAuth();
@@ -53,6 +56,7 @@ function App() {
     >
       <Router>
         <TopBar />
+        <ToastContainer />
         <div className="dashboard">
           <div className={`sidebar sidebar-open`}>
             <Navigation expanded={true} />

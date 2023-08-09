@@ -92,3 +92,14 @@
     font-size: 18px;
   }
 }
+
+.cart-number {
+  background-color: blue;
+  font-size: medium;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  color: white;
+  border-radius: 50%;
+}

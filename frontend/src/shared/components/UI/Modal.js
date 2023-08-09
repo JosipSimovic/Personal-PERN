@@ -18,6 +18,7 @@ const Modal = (props) => {
       <BootstrapModal.Body>{props.children}</BootstrapModal.Body>
       <BootstrapModal.Footer>
         <Button onClick={props.onCancel}>Close</Button>
+        {props.extraButton}
       </BootstrapModal.Footer>
     </BootstrapModal>
   );

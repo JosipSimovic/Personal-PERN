@@ -91,9 +91,8 @@ const FilterSide = (props) => {
                   <FormGroup>
                     {Object.entries(props.productColors).map(
                       ([id, colorInfo]) => (
-                        <React.Fragment>
+                        <React.Fragment key={id}>
                           <FormControlLabel
-                            key={id}
                             control={
                               <Checkbox style={{ color: colorInfo.hex }} />
                             }

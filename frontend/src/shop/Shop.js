@@ -5,6 +5,10 @@ import PageNav from "./components/PageNav";
 import { useSendRequest } from "../shared/hooks/http-request-hook";
 import { useDispatch, useSelector } from "react-redux";
 import { setMaxPrice } from "../features/webshop/filtersSlice";
+import Modal from "../shared/components/UI/Modal";
+import { addProduct } from "../features/cart/cartSlice";
+import { Button } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 import "./Shop.css";
 import "./components/Filter/FilterSide.css";
@@ -16,6 +20,8 @@ const Shop = () => {
   let [maxPageNumber, setMaxPageNumber] = useState();
   const [filterOpen, setFilterOpen] = useState(false);
   const [productColors, setProductColors] = useState([]);
+
+  const [errorModal, setErrorModal] = useState(false);
 
   const filters = useSelector((state) => state.filters);
   const dispatch = useDispatch();
@@ -59,6 +65,21 @@ const Shop = () => {
 
   return (
     <div>
+      <Modal
+        show={errorModal}
+        header="Error"
+        onCancel={() => setErrorModal(false)}
+        extraButton={
+          <React.Fragment>
+            <NavLink to="/login">
+              <Button>Sign in</Button>
+            </NavLink>
+          </React.Fragment>
+        }
+      >
+        {errorModal}
+      </Modal>
+
       <React.Fragment>
         {filterOpen && (
           <div className="filter-backdrop" onClick={filterOpenHandler}></div>
@@ -76,6 +97,7 @@ const Shop = () => {
           clearError={clearError}
           isLoading={isLoading}
           products={products}
+          setErrorModal={setErrorModal}
         />
         {products && maxPageNumber > 0 && (
           <PageNav

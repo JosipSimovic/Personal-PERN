@@ -3,8 +3,6 @@ import React, { useContext } from "react";
 import Button from "../UI/Button";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/auth-context";
-import { ToastContainer, notify } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import "./TopBar.css";
 
@@ -27,10 +25,9 @@ const TopBar = () => {
             )}
             {auth.isLoggedIn && (
               <Button onClick={() => auth.logout()}>
-                Log out <i class="fa-solid fa-right-from-bracket"></i>
+                Log out <i className="fa-solid fa-right-from-bracket"></i>
               </Button>
             )}
-            <button>TEST</button>
           </div>
         </div>
       </div>

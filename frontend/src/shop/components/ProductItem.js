@@ -1,10 +1,32 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Card from "../../shared/components/UI/Card";
 
 import "./ProductItem.css";
+import { AuthContext } from "../../context/auth-context";
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct } from "../../features/cart/cartSlice";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 const ProductItem = (props) => {
+  const auth = useContext(AuthContext);
+
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
   const [itemAmount, setItemAmount] = useState(1);
+
+  const addToCart = () => {
+    if (!auth.isLoggedIn) {
+      props.setErrorModal("You must be logged in to buy products.");
+    } else {
+      let payload = {
+        product: props.item,
+        amount: itemAmount,
+      };
+      dispatch(addProduct(payload));
+      window.toast.success(`${itemAmount} '${props.item.name}' added to cart.`);
+    }
+  };
 
   const amountMinusHandler = () => {
     setItemAmount(itemAmount - 1);
@@ -18,20 +40,20 @@ const ProductItem = (props) => {
     <li>
       <Card>
         <div className="image-div">
-          <img src={props.image} alt="alt" />
+          <img src={props.item.image} alt="alt" />
         </div>
         <div className="product-info">
-          <h4>{props.name}</h4>
-          <p className="description">{props.description}</p>
+          <h4>{props.item.name}</h4>
+          <p className="description">{props.item.description}</p>
           <hr />
           <div className="product-footer">
             <div className="price-div">
               <p style={{ float: "left" }}>Color:</p>
-              <p className="price">{props.color.toUpperCase()}</p>
+              <p className="price">{props.item.color_name.toUpperCase()}</p>
             </div>
             <div className="price-div">
               <p style={{ float: "left" }}>Price:</p>
-              <p className="price">{props.price} €</p>
+              <p className="price">{props.item.price} €</p>
             </div>
             <div className="amount">
               <button onClick={amountMinusHandler} disabled={itemAmount <= 1}>
@@ -40,7 +62,7 @@ const ProductItem = (props) => {
               <span className="counter">{itemAmount}</span>
               <button onClick={amountPlusHandler}>+</button>
             </div>
-            <button className="buy-button">
+            <button onClick={addToCart} className="buy-button">
               BUY <i className="fa-solid fa-bag-shopping"></i>
             </button>
           </div>

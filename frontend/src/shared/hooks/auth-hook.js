@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { emptyCart } from "../../features/cart/cartSlice";
 
 const useAuth = () => {
   const [token, setToken] = useState(false);
   const [tokenExpDate, setTokenExpDate] = useState();
   const [userId, setUserId] = useState(false);
+
+  const dispatch = useDispatch();
 
   var logoutTimer;
 
@@ -28,8 +32,10 @@ const useAuth = () => {
   const logout = useCallback(() => {
     setToken(null);
     setTokenExpDate(null);
+    dispatch(emptyCart());
     localStorage.removeItem("userData");
     setUserId(null);
+    window.toast.info("Logged out.");
   }, []);
 
   useEffect(() => {

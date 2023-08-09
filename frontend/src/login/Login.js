@@ -2,10 +2,10 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSendRequest } from "../shared/hooks/http-request-hook";
 import LoadingSpinner from "../shared/components/UI/LoadingSpinner";
-
-import "./Login.css";
 import ErrorModal from "../shared/components/UI/ErrorModal";
 import { AuthContext } from "../context/auth-context";
+
+import "./Login.css";
 
 const isValidEmail = (email) =>
   // eslint-disable-next-line no-useless-escape
@@ -40,11 +40,12 @@ const Login = () => {
           }),
           { "Content-Type": "application/json" }
         );
+        window.toast.success("Successfully signed up. Welcome!");
         auth.login(responseData.createdUser.userId, "test_token");
       } catch (e) {}
     } else {
-      console.log("Login");
-      auth.login();
+      window.toast.success("Successfully logged in!");
+      auth.login("aaaa", "test");
     }
   };
 
