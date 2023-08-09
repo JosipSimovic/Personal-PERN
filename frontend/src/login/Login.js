@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSendRequest } from "../shared/hooks/http-request-hook";
+import LoadingSpinner from "../shared/components/UI/LoadingSpinner";
 
 import "./Login.css";
 
+const isValidEmail = (email) =>
+  // eslint-disable-next-line no-useless-escape
+  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    email
+  );
+
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isLoading, error, sendRequest, clearError] = useSendRequest();
+
+  const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
   const {
     register,
@@ -13,13 +24,21 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const responseData = await sendRequest(
+        `${process.env.REACT_APP_USER_URL}/`,
+        "POST"
+      );
+    } catch (e) {}
+  };
 
   return (
     <div
       style={{ height: "100%", backgroundColor: "var(--primary-color" }}
       className="container-fluid d-flex align-items-center justify-content-center"
     >
+      {isLoading && <LoadingSpinner asOverlay />}
       <div className="row login-form-div">
         <div className="col-12">
           <form className="form" onSubmit={handleSubmit(onSubmit)}>
@@ -31,29 +50,70 @@ const Login = () => {
                 <label htmlFor="username">Username:</label>
                 <input
                   id="username"
-                  {...register("usernameRequired", { required: true })}
+                  {...register("username", {
+                    required: "Username is required.",
+                    validate: {
+                      specialChars: (s) =>
+                        !specialChars.test(s) ||
+                        "Username must not contain special characters.",
+                      minLength: (s) =>
+                        s.length >= 5 ||
+                        "Username has to be at least 5 letters.",
+                    },
+                  })}
                 />
               </React.Fragment>
             )}
-            {!isLogin && errors.usernameRequired && <span>Username is required.</span>}
+            {!isLogin && errors.username && (
+              <React.Fragment>
+                <span>{errors.username.message}</span>
+                <span>{errors.username.validate}</span>
+              </React.Fragment>
+            )}
 
             <label htmlFor="email">E-mail:</label>
             <input
               id="email"
-              {...register("emailRequired", { required: true })}
+              {...register("email", {
+                required: "E-mail is required.",
+                validate: {
+                  isEmail: (s) => isValidEmail(s) || "E-mail is not valid.",
+                },
+              })}
             />
-            {errors.emailRequired && <span>email is required.</span>}
+            {errors.email && (
+              <React.Fragment>
+                <span>{errors.email.message}</span>
+                <span>{errors.email.validate}</span>
+              </React.Fragment>
+            )}
 
             <label htmlFor="password">Password:</label>
             <input
+              type="password"
               id="password"
-              {...register("passwordRequired", { required: true })}
+              {...register("password", {
+                required: "Password is required.",
+                validate: {
+                  minLength: (s) =>
+                    s.length >= 5 || "Password has to be at least 5 letters.",
+                },
+              })}
             />
             {/* errors will return when field validation fails  */}
-            {errors.passwordRequired && <span>Password is required.</span>}
+            {errors.password && (
+              <React.Fragment>
+                <span>{errors.password.message}</span>
+                <span>{errors.password.validate}</span>
+              </React.Fragment>
+            )}
             <br />
 
-            <input className="submit-button" type="submit" value={isLogin ? "Sign in" : "Sign up"}/>
+            <input
+              className="submit-button"
+              type="submit"
+              value={isLogin ? "Sign in" : "Sign up"}
+            />
           </form>
           <br />
           {isLogin ? (

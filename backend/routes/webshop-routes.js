@@ -1,5 +1,5 @@
 const express = require("express");
-const webshopController = require("../controllers/webshop-controllers");
+const webshopController = require("../controllers/webshop-controller");
 
 const router = express.Router();
 

@@ -23,7 +23,7 @@ const Shop = () => {
   const loadProducts = async () => {
     try {
       const responseData = await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/webshop`,
+        process.env.REACT_APP_WEBSHOP_URL,
         "POST",
         JSON.stringify({
           page: currentPage,
