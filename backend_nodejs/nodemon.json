@@ -1,5 +1,0 @@
-{
-  "env": {
-    "JWT_KEY": "personal_pern_jwt"
-  }
-}
