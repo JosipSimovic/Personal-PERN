@@ -16,16 +16,12 @@ body {
 .sidebar {
   background-color: var(--light-blue);
   height: 100%;
-  width: 5%;
+  width: var(--navigation-width);
   position: sticky;
   top: 0;
   overflow: hidden;
   z-index: 999;
   transition: all 0.3s;
-}
-
-.sidebar-open {
-  width: var(--navigation-width);
 }
 
 .content {
@@ -127,4 +123,37 @@ body {
 }
 .Toastify__toast > button > svg {
   display: none;
+}
+
+@media (max-width: 1440px) {
+  .sidebar {
+    margin-left: calc(var(--mobile-navigation-width) * -1);
+    position: fixed;
+    width: var(--mobile-navigation-width);
+    border-top-right-radius: 1em;
+    border-bottom-right-radius: 1em;
+  }
+
+  .open {
+    margin-left: 0;
+    z-index: 999;
+  }
+
+  .content {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+  }
+}
+
+.sidebar-backdrop {
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.705);
+  z-index: 2;
+  transition: all 1s;
+  opacity: 1;
 }

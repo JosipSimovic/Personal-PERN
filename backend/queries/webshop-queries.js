@@ -1,16 +1,37 @@
-const getCountAndMaxPrice = () => {
+const getCountAndMaxPrice = (filters, page) => {
   let query =
     "SELECT COUNT(p.*) AS count, MAX(p.price) as max_price " +
     "FROM products p " +
-    "JOIN product_colors c ON p.color = c.id";
+    "JOIN product_colors c ON p.color = c.id " +
+    setQueryFilters(filters, page);
   return query;
 };
 
 const getProductsWithFilters = (filters, page) => {
+  let sortCondition;
+  switch (filters.sort) {
+    case 0:
+      sortCondition = " ORDER BY p.name ASC";
+      break;
+    case 1:
+      sortCondition = " ORDER BY p.name DESC";
+      break;
+    case 2:
+      sortCondition = " ORDER BY p.price ASC";
+      break;
+    case 3:
+      sortCondition = " ORDER BY p.price DESC";
+      break;
+
+    default:
+      break;
+  }
   let query =
     "SELECT * FROM products p " +
     "JOIN product_colors c ON p.color = c.id " +
-    setQueryFilters(filters, page);
+    setQueryFilters(filters, page) +
+    sortCondition +
+    ` LIMIT ${filters.numOfProducts} OFFSET ${page * filters.numOfProducts}`;
   return query;
 };
 
@@ -58,31 +79,6 @@ const setQueryFilters = (filters, page) => {
   } catch (e) {
     throw e;
   }
-
-  let sortCondition;
-  switch (filters.sort) {
-    case 0:
-      sortCondition = " ORDER BY p.name ASC";
-      break;
-    case 1:
-      sortCondition = " ORDER BY p.name DESC";
-      break;
-    case 2:
-      sortCondition = " ORDER BY p.price ASC";
-      break;
-    case 3:
-      sortCondition = " ORDER BY p.price DESC";
-      break;
-
-    default:
-      break;
-  }
-  whereCondition += sortCondition;
-
-  // Add number of products to get based on user page
-  whereCondition += ` LIMIT ${filters.numOfProducts} OFFSET ${
-    page * filters.numOfProducts
-  }`;
 
   return whereCondition;
 };

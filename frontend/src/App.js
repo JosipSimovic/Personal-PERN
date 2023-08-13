@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navigate,
   Route,
@@ -21,7 +21,12 @@ import "./style-constants.css";
 window.toast = toast;
 
 function App() {
-  const [userId, token, login, logout] = useAuth();
+  const [userId, token, username, login, logout] = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const sidebarOpenHandler = () => {
+    setSidebarOpen((prevState) => !prevState);
+  };
 
   let routes;
 
@@ -49,17 +54,25 @@ function App() {
       value={{
         isLoggedIn: !!token,
         userId: userId,
+        username: username,
         token: token,
         login: login,
         logout: logout,
       }}
     >
       <Router>
-        <TopBar />
+        <TopBar sidebarOpenHandler={sidebarOpenHandler} />
         <ToastContainer />
+
         <div className="dashboard">
-          <div className={`sidebar sidebar-open`}>
-            <Navigation expanded={true} />
+          {sidebarOpen && (
+            <div
+              className="sidebar-backdrop"
+              onClick={sidebarOpenHandler}
+            ></div>
+          )}
+          <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+            <Navigation sidebarOpenHandler={sidebarOpenHandler} />
           </div>
           <div className="content">{routes}</div>
         </div>

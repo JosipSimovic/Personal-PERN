@@ -13,8 +13,9 @@ const getProductsWithFilters = async (req, res, next) => {
   // GET ALL COLORS //
   let count_price_result;
   try {
-    count_price_result = (await pool.query(queries.getCountAndMaxPrice()))
-      .rows[0];
+    count_price_result = (
+      await pool.query(queries.getCountAndMaxPrice(filters))
+    ).rows[0];
   } catch (e) {
     console.log(e);
   }

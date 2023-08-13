@@ -1,9 +1,12 @@
+.sidenav {
+  text-align: center;
+}
+
 .sidenav a {
   color: black;
   text-decoration: none;
   font-size: 1em;
   display: block;
-  text-align: center;
   padding: 0.5em;
   margin-bottom: 0.5em;
   border-top-right-radius: 1em;
@@ -102,4 +105,27 @@
   padding-bottom: 0.2em;
   color: white;
   border-radius: 50%;
+}
+
+#close-nav-button {
+  text-align: right;
+  display: none;
+}
+
+.login-logout-mobile {
+  display: none;
+}
+
+@media (max-width: 1440px) {
+  .links-div {
+    padding-top: 50%;
+  }
+
+  #close-nav-button {
+    display: block;
+  }
+
+  .login-logout-mobile {
+    display: block;
+  }
 }

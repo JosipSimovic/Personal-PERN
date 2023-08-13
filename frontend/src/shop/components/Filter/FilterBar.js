@@ -50,7 +50,7 @@ const FilterBar = (props) => {
                 <i className="fa-solid fa-filter"></i> Filter
               </button>
             </div>
-            <div className="col-2">
+            <div className="col-xl-2 col-sm-5">
               <FormControl style={{ width: "100%" }}>
                 <InputLabel id="sort-by-label">Sort by</InputLabel>
                 <Select
@@ -66,7 +66,7 @@ const FilterBar = (props) => {
                 </Select>
               </FormControl>
             </div>
-            <div className="col-2">
+            <div className="col-xl-2 col-sm-5">
               <FormControl style={{ width: "100%" }}>
                 <InputLabel id="num-of-products">Products per page</InputLabel>
                 <Select
@@ -81,7 +81,7 @@ const FilterBar = (props) => {
                 </Select>
               </FormControl>
             </div>
-            <div className="col-6">
+            <div className="col-xl-6 col-sm-12">
               <div className="search">
                 <input
                   type="text"
