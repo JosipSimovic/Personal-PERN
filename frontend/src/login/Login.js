@@ -40,12 +40,33 @@ const Login = () => {
           }),
           { "Content-Type": "application/json" }
         );
-        window.toast.success("Successfully signed up. Welcome!");
-        auth.login(responseData.createdUser.userId, "test_token");
+        window.toast.success(
+          `Welcome to our webshop ${responseData.createdUser.username}!`
+        );
+        auth.login(
+          responseData.createdUser.userId,
+          responseData.createdUser.token,
+          responseData.createdUser.username
+        );
       } catch (e) {}
     } else {
-      window.toast.success("Successfully logged in!");
-      auth.login("aaaa", "test");
+      try {
+        const responseData = await sendRequest(
+          `${process.env.REACT_APP_USER_URL}/login`,
+          "POST",
+          JSON.stringify({
+            email: data.email,
+            password: data.password,
+          }),
+          { "Content-Type": "application/json" }
+        );
+        window.toast.success(`Hello ${responseData.user.username}!`);
+        auth.login(
+          responseData.user.userId,
+          responseData.user.token,
+          responseData.user.username
+        );
+      } catch (e) {}
     }
   };
 
@@ -55,7 +76,12 @@ const Login = () => {
       className="container-fluid d-flex align-items-center justify-content-center"
     >
       {isLoading && (
-        <LoadingSpinner asOverlay message="Signing up. Please wait..." />
+        <LoadingSpinner
+          asOverlay
+          message={
+            (isLogin ? "Logging in." : "Signing up.") + " Please wait..."
+          }
+        />
       )}
       <ErrorModal error={error} onCancel={clearError} />
       <div className="row login-form-div">

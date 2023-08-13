@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { emptyCart } from "../../features/cart/cartSlice";
 
@@ -6,14 +7,16 @@ const useAuth = () => {
   const [token, setToken] = useState(false);
   const [tokenExpDate, setTokenExpDate] = useState();
   const [userId, setUserId] = useState(false);
+  const [username, setUsername] = useState(false);
 
   const dispatch = useDispatch();
 
   var logoutTimer;
 
-  const login = useCallback((uid, token, expirationDate) => {
+  const login = useCallback((uid, token, username, expirationDate) => {
     setToken(token);
     setUserId(uid);
+    setUsername(username);
     const tokenExpDate =
       expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
     setTokenExpDate(tokenExpDate);
@@ -21,6 +24,7 @@ const useAuth = () => {
       "userData",
       JSON.stringify({
         userId: uid,
+        username: username,
         token: token,
         expiration: new Date(
           tokenExpDate.getTime() - tokenExpDate.getTimezoneOffset() * 60000
@@ -43,9 +47,15 @@ const useAuth = () => {
     if (
       userData &&
       userData.token &&
+      userData.username &&
       new Date(userData.expiration) > new Date()
     ) {
-      login(userData.uid, userData.token, new Date(userData.expiration));
+      login(
+        userData.uid,
+        userData.token,
+        userData.username,
+        new Date(userData.expiration)
+      );
     }
   }, [login]);
 
@@ -58,7 +68,7 @@ const useAuth = () => {
     }
   }, [logout, token, tokenExpDate]);
 
-  return [userId, token, login, logout];
+  return [userId, token, username, login, logout];
 };
 
 export default useAuth;

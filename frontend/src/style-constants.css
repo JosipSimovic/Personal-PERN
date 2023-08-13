@@ -9,6 +9,7 @@
   /* NAV */
   --topbar-height: 5%;
   --navigation-width: 10%;
+  --mobile-navigation-width: 25em;
 
   /* FILTER BAR */
   --filter-width: 20em;

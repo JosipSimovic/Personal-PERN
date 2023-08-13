@@ -7,12 +7,17 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     emptyCart: (state, action) => {
-      console.log("empty state");
       state = [];
-      console.log(state);
     },
     addProduct: (state, action) => {
-      state.push(action.payload);
+      const existingItem = state.find(
+        (item) => item.product.id === action.payload.product.id
+      );
+      if (existingItem) {
+        existingItem.amount += action.payload.amount; // Update the amount
+      } else {
+        state.push(action.payload);
+      }
     },
   },
 });

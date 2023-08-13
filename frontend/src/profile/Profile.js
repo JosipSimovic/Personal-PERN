@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../context/auth-context";
 
 const Profile = () => {
-    return (
-        <h1 style={{textAlign: 'center'}}>Profil</h1>
-    )
-}
+  const auth = useContext(AuthContext);
+
+  return <h1 style={{ textAlign: "center" }}>{auth.username}</h1>;
+};
 
 export default Profile;
