@@ -9,7 +9,7 @@ export const cartSlice = createSlice({
     emptyCart: (state, action) => {
       state = [];
     },
-    addProduct: (state, action) => {
+    addProductToCart: (state, action) => {
       const existingItem = state.find(
         (item) => item.product.id === action.payload.product.id
       );
@@ -19,9 +19,22 @@ export const cartSlice = createSlice({
         state.push(action.payload);
       }
     },
+    setCartProductAmount: (state, action) => {
+      const existingItem = state.find(
+        (item) => item.product.id === action.payload.id
+      );
+      if (existingItem) {
+        if (action.payload.type === "plus") {
+          existingItem.amount += 1;
+        } else if (action.payload.type === "minus") {
+          existingItem.amount -= 1;
+        }
+      }
+    },
   },
 });
 
-export const { addProduct, emptyCart } = cartSlice.actions;
+export const { addProductToCart, emptyCart, setCartProductAmount } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

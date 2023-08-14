@@ -6,7 +6,6 @@ import { useSendRequest } from "../shared/hooks/http-request-hook";
 import { useDispatch, useSelector } from "react-redux";
 import { setMaxPrice } from "../features/webshop/filtersSlice";
 import Modal from "../shared/components/UI/Modal";
-import { addProduct } from "../features/cart/cartSlice";
 import { Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 

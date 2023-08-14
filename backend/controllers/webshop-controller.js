@@ -44,6 +44,7 @@ const getProductsWithFilters = async (req, res, next) => {
 };
 
 const insertNewProduct = async (req, res, next) => {
+  console.log("INSERT NEW PRODUCT");
   const { name, description, color, image, price } = req.body;
   let result;
 
@@ -54,7 +55,7 @@ const insertNewProduct = async (req, res, next) => {
   //       faker.commerce.product(),
   //       faker.commerce.productDescription(),
   //       faker.number.int({ min: 2, max: 11 }),
-  //       null,
+  //       faker.image.urlLoremFlickr({ category: "fashion" }),
   //       faker.commerce.price({ dec: 2 }),
   //     ]);
   //   }

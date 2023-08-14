@@ -1,16 +1,14 @@
 import React, { useContext, useState } from "react";
 import Card from "../../shared/components/UI/Card";
+import { AuthContext } from "../../context/auth-context";
+import { useDispatch } from "react-redux";
+import { addProductToCart } from "../../features/cart/cartSlice";
 
 import "./ProductItem.css";
-import { AuthContext } from "../../context/auth-context";
-import { useDispatch, useSelector } from "react-redux";
-import { addProduct } from "../../features/cart/cartSlice";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 const ProductItem = (props) => {
   const auth = useContext(AuthContext);
 
-  const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const [itemAmount, setItemAmount] = useState(1);
@@ -23,7 +21,7 @@ const ProductItem = (props) => {
         product: props.item,
         amount: itemAmount,
       };
-      dispatch(addProduct(payload));
+      dispatch(addProductToCart(payload));
       window.toast.success(`${itemAmount} '${props.item.name}' added to cart.`);
     }
   };
