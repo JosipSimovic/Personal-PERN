@@ -27,7 +27,8 @@ const getProductsWithFilters = (filters, page) => {
       break;
   }
   let query =
-    "SELECT * FROM products p " +
+    "SELECT p.id, p.name, p.image, p.description, p.price, p.color, c.color_name, c.hex " +
+    "FROM products p " +
     "JOIN product_colors c ON p.color = c.id " +
     setQueryFilters(filters, page) +
     sortCondition +

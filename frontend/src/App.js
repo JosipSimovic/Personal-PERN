@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navigate,
   Route,
@@ -14,6 +14,7 @@ import Login from "./login/Login";
 import { AuthContext } from "./context/auth-context";
 import useAuth from "./shared/hooks/auth-hook";
 import { ToastContainer, toast } from "react-toastify";
+import AdminDashboard from "./admin/AdminDashboard";
 
 import "./App.css";
 import "./style-constants.css";
@@ -21,7 +22,7 @@ import "./style-constants.css";
 window.toast = toast;
 
 function App() {
-  const [userId, token, username, login, logout] = useAuth();
+  const [userId, isAdmin, token, username, login, logout] = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const sidebarOpenHandler = () => {
@@ -36,6 +37,9 @@ function App() {
         <Route path="/" element={<Shop />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/cart" element={<Cart />} />
+        {isAdmin && (
+          <Route path="/adminDashboard/*" element={<AdminDashboard />} />
+        )}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
@@ -53,6 +57,7 @@ function App() {
     <AuthContext.Provider
       value={{
         isLoggedIn: !!token,
+        isAdmin: isAdmin,
         userId: userId,
         username: username,
         token: token,

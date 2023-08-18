@@ -44,7 +44,6 @@ const getProductsWithFilters = async (req, res, next) => {
 };
 
 const insertNewProduct = async (req, res, next) => {
-  console.log("INSERT NEW PRODUCT");
   const { name, description, color, image, price } = req.body;
   let result;
 
@@ -60,7 +59,7 @@ const insertNewProduct = async (req, res, next) => {
   //     ]);
   //   }
   // } catch (e) {
-  //   next(new HttpError("Something went wrong: " + e, 400));
+  //   return next(new HttpError("Something went wrong: " + e, 400));
   // }
 
   try {
@@ -72,7 +71,7 @@ const insertNewProduct = async (req, res, next) => {
       price,
     ]);
   } catch (e) {
-    next(new HttpError("Something went wrong: " + e, 400));
+    return next(new HttpError("Something went wrong: " + e, 400));
   }
 
   res.status(201);
@@ -81,5 +80,7 @@ const insertNewProduct = async (req, res, next) => {
   });
 };
 
-exports.getProductsWithFilters = getProductsWithFilters;
-exports.insertNewProduct = insertNewProduct;
+module.exports = {
+  getProductsWithFilters,
+  insertNewProduct,
+};

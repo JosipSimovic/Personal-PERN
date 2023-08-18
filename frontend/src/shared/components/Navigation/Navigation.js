@@ -35,6 +35,11 @@ const Navigation = (props) => {
             <NavLink to="/profile">
               <i className="fa-solid fa-user"></i> <span>Profile</span>
             </NavLink>
+            {auth.isAdmin && (
+              <NavLink to="/adminDashboard">
+                <i className="fa-solid fa-lock"></i> <span>Admin</span>
+              </NavLink>
+            )}
           </React.Fragment>
         )}
         <div className="login-logout-mobile">

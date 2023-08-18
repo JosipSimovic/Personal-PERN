@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const pool = require("../database");
 const HttpError = require("../models/http-error");
 const queries = require("../queries/user-queries");
@@ -113,7 +114,95 @@ const login = async (req, res, next) => {
   }
 };
 
+const getUserCart = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty) {
+    console.log(errors);
+    return next(new HttpError("Invalid inputs passed.", 422));
+  }
+
+  const { uid } = req.params;
+
+  try {
+    const result = await pool.query(queries.getUserCart, [uid]);
+    res.status(200);
+    res.json({
+      products: result.rows,
+    });
+  } catch (e) {
+    return next(new HttpError("Someting went wrong: " + e, 500));
+  }
+};
+
+const addProductToCart = async (req, res, next) => {
+  const { uid, pid, amount } = req.body;
+
+  try {
+    const insertResult = await pool.query(queries.insertCartProduct, [
+      uid,
+      pid,
+      amount,
+    ]);
+
+    res.status(201);
+    res.json({
+      message: "Product added to cart.",
+    });
+  } catch (e) {
+    return next(new HttpError("An error ocurred: " + e));
+  }
+};
+
+const editProductAmount = async (req, res, next) => {
+  const { uid, pid, amount } = req.body;
+
+  try {
+    const updateResult = await pool.query(queries.updateCartProductAmount, [
+      amount,
+      uid,
+      pid,
+    ]);
+
+    if (updateResult.rowCount <= 0) {
+      return next(
+        new HttpError("Could not find product with given values.", 404)
+      );
+    }
+
+    res.status(201);
+    res.json({
+      message: "Product amount updated.",
+    });
+  } catch (e) {
+    return next(new HttpError("An error ocurred: " + e));
+  }
+};
+
+const checkAdmin = async (req, res, body) => {
+  const { uid } = req.body;
+
+  try {
+    const result = await pool.query(queries.checkIfAdmin, [uid]);
+
+    let isAdmin = false;
+    if (result.rowCount > 0) {
+      isAdmin = true;
+    }
+
+    res.status(200);
+    res.json({
+      isAdmin,
+    });
+  } catch (e) {
+    return next(new HttpError("Something went wrong: " + e.message, 500));
+  }
+};
+
 module.exports = {
   signup,
   login,
+  getUserCart,
+  addProductToCart,
+  editProductAmount,
+  checkAdmin,
 };

@@ -20,7 +20,11 @@ const ProductsList = (props) => {
       {!props.isLoading && (
         <ul className="products-list">
           {props.products.map((item) => (
-            <ProductItem item={item} setErrorModal={props.setErrorModal} />
+            <ProductItem
+              key={item.id}
+              item={item}
+              setErrorModal={props.setErrorModal}
+            />
           ))}
         </ul>
       )}

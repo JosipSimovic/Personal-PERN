@@ -1,28 +1,99 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "../../shared/components/UI/Card";
 import { AuthContext } from "../../context/auth-context";
-import { useDispatch } from "react-redux";
-import { addProductToCart } from "../../features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addProductToCart,
+  setCartProductAmount,
+} from "../../features/cart/cartSlice";
+import { useSendRequest } from "../../shared/hooks/http-request-hook";
 
 import "./ProductItem.css";
+import LoadingSpinner from "../../shared/components/UI/LoadingSpinner";
 
 const ProductItem = (props) => {
   const auth = useContext(AuthContext);
+  const cart = useSelector((state) => state.cart);
 
+  const [isLoading, error, sendRequest, clearError] = useSendRequest();
   const dispatch = useDispatch();
 
   const [itemAmount, setItemAmount] = useState(1);
 
-  const addToCart = () => {
+  const [inCart, setInCart] = useState(false);
+
+  useEffect(() => {
+    let foundItem = cart.find((item) => item.id === props.item.id);
+
+    if (foundItem) {
+      setInCart(true);
+    } else {
+      setInCart(false);
+    }
+  }, [cart, props.item.id]);
+
+  const addToCart = async () => {
     if (!auth.isLoggedIn) {
       props.setErrorModal("You must be logged in to buy products.");
     } else {
-      let payload = {
-        product: props.item,
-        amount: itemAmount,
-      };
-      dispatch(addProductToCart(payload));
-      window.toast.success(`${itemAmount} '${props.item.name}' added to cart.`);
+      let alreadyInCart = false;
+      let cartAmount = 0;
+      cart.forEach((element) => {
+        if (element.id === props.item.id) {
+          alreadyInCart = true;
+          cartAmount = element.amount;
+        }
+      });
+      try {
+        if (alreadyInCart) {
+          const responseData = await sendRequest(
+            `${process.env.REACT_APP_USER_URL}/updateCart`,
+            "PATCH",
+            JSON.stringify({
+              uid: auth.userId,
+              pid: props.item.id,
+              amount: itemAmount + cartAmount,
+            }),
+            {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + auth.token,
+            }
+          );
+          let payload = {
+            id: props.item.id,
+            type: "plus",
+            amount: itemAmount,
+          };
+          dispatch(setCartProductAmount(payload));
+          window.toast.success(
+            `${itemAmount} '${props.item.name}' added to existing cart.`
+          );
+        } else {
+          const responseData = await sendRequest(
+            `${process.env.REACT_APP_USER_URL}/addToCart`,
+            "POST",
+            JSON.stringify({
+              uid: auth.userId,
+              pid: props.item.id,
+              amount: itemAmount,
+            }),
+            {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + auth.token,
+            }
+          );
+          let payload = {
+            product: props.item,
+            amount: itemAmount,
+          };
+          dispatch(addProductToCart(payload));
+          window.toast.success(
+            `${itemAmount} '${props.item.name}' added to cart.`
+          );
+        }
+      } catch (e) {
+        props.setErrorModal(e.message);
+      }
     }
   };
 
@@ -60,9 +131,15 @@ const ProductItem = (props) => {
               <span className="counter">{itemAmount}</span>
               <button onClick={amountPlusHandler}>+</button>
             </div>
-            <button onClick={addToCart} className="buy-button">
-              BUY <i className="fa-solid fa-bag-shopping"></i>
-            </button>
+            <div>
+              {isLoading && (
+                <LoadingSpinner message="Adding to cart..." asOverlay />
+              )}
+              <button onClick={addToCart} className="buy-button">
+                {inCart ? "ADD AMOUNT" : "BUY"}{" "}
+                <i className="fa-solid fa-bag-shopping"></i>
+              </button>
+            </div>
           </div>
         </div>
       </Card>

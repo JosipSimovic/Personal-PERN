@@ -1,4 +1,5 @@
 const express = require("express");
+const { check } = require("express-validator");
 const webshopController = require("../controllers/webshop-controller");
 const checkAuth = require("../middleware/check-auth");
 

@@ -1,0 +1,107 @@
+import React, { useContext, useEffect, useState } from "react";
+import Card from "../shared/components/UI/Card";
+import { useSendRequest } from "../shared/hooks/http-request-hook";
+import { useDispatch } from "react-redux";
+import { AuthContext } from "../context/auth-context";
+import { setCartProductAmount } from "../features/cart/cartSlice";
+
+const CartListItem = (props) => {
+  const item = props.item;
+  const auth = useContext(AuthContext);
+
+  const [itemAmount, setItemAmount] = useState(item.amount);
+  const [isLoading, error, sendRequest, clearError] = useSendRequest();
+
+  const dispatch = useDispatch();
+
+  const changeAmountHandler = async (id, type) => {
+    try {
+      let payload = {
+        id,
+        type,
+        amount: 1,
+      };
+      dispatch(setCartProductAmount(payload));
+    } catch (e) {
+      alert(e);
+    }
+  };
+
+  useEffect(() => {
+    const updateAmountDb = async () => {
+      try {
+        const resultData = await sendRequest(
+          `${process.env.REACT_APP_USER_URL}/updateCart`,
+          "PATCH",
+          JSON.stringify({
+            uid: auth.userId,
+            pid: item.id,
+            amount: itemAmount,
+          }),
+          {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth.token,
+          }
+        );
+      } catch (e) {}
+    };
+    updateAmountDb();
+  }, [itemAmount]);
+
+  return (
+    <Card key={item.id}>
+      <div className="row">
+        <div className="col-6 col-sm-3 col-xl-2">
+          <img className="product-image" src={item.image} alt={item.name}></img>
+        </div>
+        <div className="col-6 col-sm-3 col-xl-4">
+          <h4>{item.name}</h4>
+          <p>
+            Color: {item.color_name.toUpperCase()}{" "}
+            <span
+              style={{
+                display: "inline-block",
+                width: "0.7em",
+                height: "0.7em",
+                backgroundColor: item.hex,
+                marginLeft: "5px",
+              }}
+            ></span>
+          </p>
+          <p>
+            Price: <b>{item.price} €</b>
+          </p>
+        </div>
+        <div className="col-6 col-sm-3 col-xl-3">
+          <h5>Amount:</h5>
+          <div className="amount">
+            <button
+              onClick={() => {
+                setItemAmount(itemAmount - 1);
+                changeAmountHandler(item.id, "minus");
+              }}
+              disabled={item.amount <= 1}
+            >
+              -
+            </button>
+            <span className="counter">{itemAmount}</span>
+            <button
+              onClick={() => {
+                setItemAmount(itemAmount + 1);
+                changeAmountHandler(item.id, "plus");
+              }}
+            >
+              +
+            </button>
+          </div>
+        </div>
+        <div className="col-6 col-sm-3 col-xl-3">
+          <h5>Total:</h5>
+          <h4>{(item.amount * Number(item.price)).toFixed(2)} €</h4>
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+export default CartListItem;

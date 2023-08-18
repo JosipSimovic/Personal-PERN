@@ -1,0 +1,29 @@
+.option-card {
+  text-align: center;
+  text-decoration: none;
+}
+
+.option-card a {
+  text-decoration: none;
+}
+
+.card-panel {
+  transition: all 0.3s;
+}
+
+.card-panel:hover {
+  border-radius: 1em;
+  background-color: var(--highlight-grey);
+}
+
+.active-panel {
+  background-color: var(--highlight-blue);
+  border-radius: 1em;
+}
+
+.panel-content {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  height: 100%;
+  border-radius: 1em;
+  padding: 1em;
+}

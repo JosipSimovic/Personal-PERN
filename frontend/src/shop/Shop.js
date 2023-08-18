@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProductsList from "./components/ProductsList";
 import FilterBar from "./components/Filter/FilterBar";
 import PageNav from "./components/PageNav";
@@ -11,8 +11,10 @@ import { NavLink } from "react-router-dom";
 
 import "./Shop.css";
 import "./components/Filter/FilterSide.css";
+import { AuthContext } from "../context/auth-context";
 
 const Shop = () => {
+  const auth = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [isLoading, error, sendRequest, clearError] = useSendRequest();
   let [currentPage, setCurrentPage] = useState(1);
@@ -70,9 +72,11 @@ const Shop = () => {
         onCancel={() => setErrorModal(false)}
         extraButton={
           <React.Fragment>
-            <NavLink to="/login">
-              <Button>Sign in</Button>
-            </NavLink>
+            {!auth.isLoggedIn && (
+              <NavLink to="/login">
+                <Button>Sign in</Button>
+              </NavLink>
+            )}
           </React.Fragment>
         }
       >

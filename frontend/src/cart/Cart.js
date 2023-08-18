@@ -9,7 +9,7 @@ const Cart = () => {
   const totalAmountCalc = () => {
     let totalAmount = 0;
     cart.forEach((element) => {
-      totalAmount += element.product.price * element.amount;
+      totalAmount += element.price * element.amount;
     });
     return totalAmount.toFixed(2);
   };
