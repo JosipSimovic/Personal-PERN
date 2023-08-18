@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import Card from "../shared/components/UI/Card";
 
 import "./CartList.css";
 import CartListItem from "./CartListItem";
@@ -10,7 +9,7 @@ const CartList = (props) => {
   return (
     <React.Fragment>
       {cart.map((item) => {
-        return <CartListItem item={item} />;
+        return <CartListItem key={item.id} item={item} />;
       })}
     </React.Fragment>
   );

@@ -1,8 +1,10 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, useContext } from "react";
+import { AuthContext } from "../../context/auth-context";
 
 export const useSendRequest = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const auth = useContext(AuthContext);
 
   const activeHttpRequests = useRef([]);
 
@@ -12,6 +14,10 @@ export const useSendRequest = () => {
 
       const httpAbortController = new AbortController();
       activeHttpRequests.current.push(httpAbortController);
+
+      if (auth.isAdmin) {
+        headers.admin_id = auth.userId;
+      }
 
       try {
         const response = await fetch(url, {

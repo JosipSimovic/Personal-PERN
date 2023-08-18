@@ -19,7 +19,7 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, error, sendRequest, clearError] = useSendRequest();
 
-  const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  const specialChars = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
 
   const {
     register,
@@ -145,7 +145,6 @@ const Login = () => {
                 },
               })}
             />
-            {/* errors will return when field validation fails  */}
             {errors.password && (
               <React.Fragment>
                 <span>{errors.password.message}</span>

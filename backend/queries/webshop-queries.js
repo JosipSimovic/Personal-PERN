@@ -1,3 +1,5 @@
+const getAllProducts = "SELECT * FROM products ORDER BY name";
+
 const getCountAndMaxPrice = (filters, page) => {
   let query =
     "SELECT COUNT(p.*) AS count, MAX(p.price) as max_price " +
@@ -47,6 +49,10 @@ const insertNewProduct =
   "INSERT INTO products (name, description, color, image, price) " +
   "VALUES ($1, $2, $3, $4, $5)";
 
+const updateProduct =
+  "UPDATE products SET name = $1, description = $2, price = $3 " +
+  "WHERE id = $4";
+
 // FUNCTIONS //
 const setQueryFilters = (filters, page) => {
   let whereClause = [];
@@ -90,4 +96,6 @@ module.exports = {
   getCountAndMaxPrice,
   insertNewColor,
   getProductColors,
+  getAllProducts,
+  updateProduct,
 };

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { emptyCart, setState } from "../../features/cart/cartSlice";
+import { emptyCart, setCartState } from "../../features/cart/cartSlice";
 import { useSendRequest } from "./http-request-hook";
 
 const useAuth = () => {
@@ -61,7 +61,7 @@ const useAuth = () => {
         }
       );
       if (resultData.products.length > 0) {
-        dispatch(setState(resultData.products));
+        dispatch(setCartState(resultData.products));
       }
     } catch (e) {
       alert(e);

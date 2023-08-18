@@ -5,6 +5,17 @@ const HttpError = require("../models/http-error");
 
 const { faker } = require("@faker-js/faker");
 
+const getAllProducts = async (req, res, next) => {
+  try {
+    const resultData = await pool.query(queries.getAllProducts);
+
+    res.status(200);
+    res.json(resultData.rows);
+  } catch (e) {
+    return next(new HttpError("Something went wrong. " + e));
+  }
+};
+
 const getProductsWithFilters = async (req, res, next) => {
   let { page, filters } = req.body;
   let numOfProducts = filters.numOfProducts;
@@ -80,7 +91,32 @@ const insertNewProduct = async (req, res, next) => {
   });
 };
 
+const updateProduct = async (req, res, next) => {
+  const { pid, formData } = req.body;
+  const { name, description, price } = formData;
+
+  try {
+    const result = await pool.query(queries.updateProduct, [
+      name,
+      description,
+      price,
+      pid,
+    ]);
+
+    if (result.rowCount > 0) {
+      res.status(201);
+      res.json({
+        message: "aaa",
+      });
+    } else {
+      return next(new HttpError("Could not find product to update.", 500));
+    }
+  } catch (e) {}
+};
+
 module.exports = {
   getProductsWithFilters,
   insertNewProduct,
+  getAllProducts,
+  updateProduct,
 };

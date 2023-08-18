@@ -36,7 +36,7 @@ const Navigation = (props) => {
               <i className="fa-solid fa-user"></i> <span>Profile</span>
             </NavLink>
             {auth.isAdmin && (
-              <NavLink to="/adminDashboard">
+              <NavLink to="/adminDashboard/">
                 <i className="fa-solid fa-lock"></i> <span>Admin</span>
               </NavLink>
             )}
