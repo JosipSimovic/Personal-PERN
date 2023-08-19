@@ -1,0 +1,20 @@
+.sticky-order {
+  position: sticky;
+  top: 1em;
+}
+
+.summary-div {
+  background-color: rgb(252, 242, 223);
+  padding: 1em;
+  border-radius: 1em;
+}
+
+.summary-div-items {
+  max-height: 40em;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.summary-div p {
+  font-family: cursive;
+}

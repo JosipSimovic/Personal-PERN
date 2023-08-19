@@ -17,7 +17,7 @@ const Login = () => {
   const auth = useContext(AuthContext);
 
   const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, error, sendRequest, clearError] = useSendRequest();
+  const { isLoading, error, sendRequest, clearError } = useSendRequest();
 
   const specialChars = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
 

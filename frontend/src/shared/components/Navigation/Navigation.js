@@ -21,22 +21,26 @@ const Navigation = (props) => {
         </Button>
       </div>
       <div className="links-div">
-        <NavLink className="shop" to="/">
+        <NavLink onClick={props.sidebarOpenHandler} className="shop" to="/">
           <i className="fa-solid fa-shop"></i> <span>Webshop</span>
         </NavLink>
         {auth.isLoggedIn && (
           <React.Fragment>
-            <NavLink to="/cart" className="cart">
+            <NavLink
+              onClick={props.sidebarOpenHandler}
+              to="/cart"
+              className="cart"
+            >
               <i className="fa-solid fa-cart-shopping"></i> <span>Cart </span>{" "}
               {cart.length > 0 && (
                 <span className="cart-number">{cart.length}</span>
               )}
             </NavLink>
-            <NavLink to="/profile">
+            <NavLink onClick={props.sidebarOpenHandler} to="/profile">
               <i className="fa-solid fa-user"></i> <span>Profile</span>
             </NavLink>
             {auth.isAdmin && (
-              <NavLink to="/adminDashboard/">
+              <NavLink onClick={props.sidebarOpenHandler} to="/adminDashboard/">
                 <i className="fa-solid fa-lock"></i> <span>Admin</span>
               </NavLink>
             )}

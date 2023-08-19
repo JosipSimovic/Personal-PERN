@@ -153,6 +153,29 @@ const addProductToCart = async (req, res, next) => {
   }
 };
 
+const removeProductFromCart = async (req, res, next) => {
+  const pid = req.params.pid;
+  const uid = req.userData.userId;
+
+  try {
+    const deleteResult = await pool.query(
+      "DELETE FROM cart WHERE user_id = $1 AND product_id = $2",
+      [uid, pid]
+    );
+
+    if (deleteResult.rowCount > 0) {
+      res.status(200);
+      res.json({
+        message: "Removed item from cart",
+      });
+    } else {
+      return next(new HttpError("Could not find product in cart.", 404));
+    }
+  } catch (e) {
+    return next(new HttpError("An error occurred: " + e));
+  }
+};
+
 const editProductAmount = async (req, res, next) => {
   const { uid, pid, amount } = req.body;
 
@@ -198,6 +221,21 @@ const checkAdmin = async (req, res, body) => {
   }
 };
 
+const getAllUsers = async (req, res, next) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM users u LEFT JOIN admins a ON a.id = u.user_id"
+    );
+
+    if (result) {
+      res.status(200);
+      res.json(result.rows);
+    }
+  } catch (e) {
+    return next(new HttpError("An error occurred: " + e));
+  }
+};
+
 module.exports = {
   signup,
   login,
@@ -205,4 +243,6 @@ module.exports = {
   addProductToCart,
   editProductAmount,
   checkAdmin,
+  getAllUsers,
+  removeProductFromCart,
 };

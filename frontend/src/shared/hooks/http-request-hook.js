@@ -45,7 +45,7 @@ export const useSendRequest = () => {
         throw e;
       }
     },
-    []
+    [auth.isAdmin, auth.userId]
   );
 
   const clearError = () => {
@@ -58,5 +58,5 @@ export const useSendRequest = () => {
     };
   }, []);
 
-  return [isLoading, error, sendRequest, clearError];
+  return { isLoading, error, sendRequest, clearError };
 };

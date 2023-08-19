@@ -1,0 +1,6 @@
+.admin-check {
+  background-color: var(--primary-color);
+  padding: 1em;
+  color: white;
+  border-radius: 1em;
+}

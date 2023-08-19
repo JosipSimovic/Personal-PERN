@@ -15,7 +15,7 @@ const ProductItem = (props) => {
   const auth = useContext(AuthContext);
   const cart = useSelector((state) => state.cart);
 
-  const [isLoading, error, sendRequest, clearError] = useSendRequest();
+  const { isLoading, sendRequest } = useSendRequest();
   const dispatch = useDispatch();
 
   const [itemAmount, setItemAmount] = useState(1);
@@ -46,7 +46,7 @@ const ProductItem = (props) => {
       });
       try {
         if (alreadyInCart) {
-          const responseData = await sendRequest(
+          await sendRequest(
             `${process.env.REACT_APP_USER_URL}/updateCart`,
             "PATCH",
             JSON.stringify({
@@ -69,7 +69,7 @@ const ProductItem = (props) => {
             `${itemAmount} '${props.item.name}' added to existing cart.`
           );
         } else {
-          const responseData = await sendRequest(
+          await sendRequest(
             `${process.env.REACT_APP_USER_URL}/addToCart`,
             "POST",
             JSON.stringify({

@@ -14,7 +14,7 @@ const EditItemForm = (props) => {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const [isLoading, error, sendRequest, clearError] = useSendRequest();
+  const [isLoading, sendRequest] = useSendRequest();
 
   const specialChars = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
   const pricePattern = /^\d+(\.\d{1,2})?$/;
@@ -33,7 +33,7 @@ const EditItemForm = (props) => {
 
   const onSubmit = async (data) => {
     try {
-      const result = await sendRequest(
+      await sendRequest(
         `${process.env.REACT_APP_WEBSHOP_URL}/updateProduct`,
         "PATCH",
         JSON.stringify({
@@ -43,7 +43,6 @@ const EditItemForm = (props) => {
         {
           "Content-Type": "application/json",
           Authorization: "Bearer " + auth.token,
-          admin_id: auth.userId,
         }
       );
 

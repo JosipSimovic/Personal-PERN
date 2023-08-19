@@ -3,16 +3,36 @@ import Card from "../shared/components/UI/Card";
 import { useSendRequest } from "../shared/hooks/http-request-hook";
 import { useDispatch } from "react-redux";
 import { AuthContext } from "../context/auth-context";
-import { setCartProductAmount } from "../features/cart/cartSlice";
+import {
+  removeProductFromCart,
+  setCartProductAmount,
+} from "../features/cart/cartSlice";
+import ErrorModal from "../shared/components/UI/ErrorModal";
+import LoadingSpinner from "../shared/components/UI/LoadingSpinner";
 
 const CartListItem = (props) => {
   const item = props.item;
   const auth = useContext(AuthContext);
 
   const [itemAmount, setItemAmount] = useState(item.amount);
-  const [isLoading, error, sendRequest, clearError] = useSendRequest();
+  const { isLoading, sendRequest, error, clearError } = useSendRequest();
 
   const dispatch = useDispatch();
+
+  const removeFromCart = async () => {
+    try {
+      await sendRequest(
+        `${process.env.REACT_APP_USER_URL}/${item.id}`,
+        "DELETE",
+        null,
+        {
+          Authorization: "Bearer " + auth.token,
+        }
+      );
+
+      dispatch(removeProductFromCart(item.id));
+    } catch (e) {}
+  };
 
   const changeAmountHandler = async (id, type) => {
     try {
@@ -30,7 +50,7 @@ const CartListItem = (props) => {
   useEffect(() => {
     const updateAmountDb = async () => {
       try {
-        const resultData = await sendRequest(
+        await sendRequest(
           `${process.env.REACT_APP_USER_URL}/updateCart`,
           "PATCH",
           JSON.stringify({
@@ -46,10 +66,12 @@ const CartListItem = (props) => {
       } catch (e) {}
     };
     updateAmountDb();
-  }, [itemAmount]);
+  }, [auth.token, auth.userId, item.id, itemAmount, sendRequest]);
 
   return (
     <Card key={item.id}>
+      {isLoading && <LoadingSpinner />}
+      <ErrorModal error={error} onCancel={clearError} />
       <div className="row">
         <div className="col-6 col-sm-3 col-xl-2">
           <img className="product-image" src={item.image} alt={item.name}></img>
@@ -98,6 +120,11 @@ const CartListItem = (props) => {
         <div className="col-6 col-sm-3 col-xl-3">
           <h5>Total:</h5>
           <h4>{(item.amount * Number(item.price)).toFixed(2)} €</h4>
+          <div className="buttons">
+            <button onClick={removeFromCart} className="delete-button">
+              <i className="fa-solid fa-trash"></i> Remove from cart
+            </button>
+          </div>
         </div>
       </div>
     </Card>

@@ -24,6 +24,9 @@ export const cartSlice = createSlice({
         state.push(action.payload.product);
       }
     },
+    removeProductFromCart: (state, action) => {
+      return state.filter((item) => item.id !== action.payload);
+    },
     setCartProductAmount: (state, action) => {
       const existingItem = state.find((item) => item.id === action.payload.id);
       if (existingItem) {
@@ -42,6 +45,7 @@ export const {
   addProductToCart,
   emptyCart,
   setCartProductAmount,
+  removeProductFromCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

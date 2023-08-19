@@ -16,7 +16,7 @@ import { AuthContext } from "../context/auth-context";
 const Shop = () => {
   const auth = useContext(AuthContext);
   const [products, setProducts] = useState([]);
-  const [isLoading, error, sendRequest, clearError] = useSendRequest();
+  const { isLoading, error, sendRequest, clearError } = useSendRequest();
   let [currentPage, setCurrentPage] = useState(1);
   let [maxPageNumber, setMaxPageNumber] = useState();
   const [filterOpen, setFilterOpen] = useState(false);
@@ -51,6 +51,7 @@ const Shop = () => {
 
   useEffect(() => {
     loadProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentPage,
     filters.sort,

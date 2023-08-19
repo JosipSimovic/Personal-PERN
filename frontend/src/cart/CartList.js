@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React from "react";
+
+import CartListItem from "./CartListItem";
 
 import "./CartList.css";
-import CartListItem from "./CartListItem";
 
 const CartList = (props) => {
   const cart = props.cart;

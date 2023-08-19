@@ -9,14 +9,16 @@ import LoadingSpinner from "../shared/components/UI/LoadingSpinner";
 import AllProducts from "./admin-panels/products/AllProducts";
 
 import "./AdminDashboard.css";
+import UsersList from "./admin-panels/users/UsersList";
 
 const AdminDashboard = () => {
   const location = useLocation();
 
   const auth = useContext(AuthContext);
   const [allProducts, setAllProducts] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
 
-  const [isLoading, error, sendRequest, clearError] = useSendRequest();
+  const { isLoading, error, sendRequest, clearError } = useSendRequest();
 
   const loadAllProducts = useCallback(async () => {
     try {
@@ -29,11 +31,27 @@ const AdminDashboard = () => {
 
       setAllProducts(resultData);
     } catch (e) {}
-  });
+  }, [auth.token, sendRequest]);
+
+  const loadAllUsers = useCallback(async () => {
+    try {
+      const resultData = await sendRequest(
+        `${process.env.REACT_APP_USER_URL}/getAll`,
+        "GET",
+        null,
+        {
+          Authorization: "Bearer " + auth.token,
+        }
+      );
+
+      setAllUsers(resultData);
+    } catch (e) {}
+  }, [auth.token, sendRequest]);
 
   useEffect(() => {
     loadAllProducts();
-  }, []);
+    loadAllUsers();
+  }, [loadAllProducts, loadAllUsers]);
 
   return (
     <div className="container-fluid d-flex flex-column vh-90">
@@ -84,7 +102,7 @@ const AdminDashboard = () => {
               />
             }
           />
-          <Route path="/users" element={<h1>Users</h1>} />
+          <Route path="/users" element={<UsersList users={allUsers} />} />
         </Routes>
       </div>
     </div>

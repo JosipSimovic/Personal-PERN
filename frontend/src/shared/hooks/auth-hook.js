@@ -10,7 +10,7 @@ const useAuth = () => {
   const [userId, setUserId] = useState(false);
   const [username, setUsername] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoading, error, sendRequest, clearError] = useSendRequest();
+  const { sendRequest } = useSendRequest();
 
   const dispatch = useDispatch();
 
