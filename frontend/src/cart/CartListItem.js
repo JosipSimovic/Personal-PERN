@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Card from "../shared/components/UI/Card";
 import { useSendRequest } from "../shared/hooks/http-request-hook";
 import { useDispatch } from "react-redux";
