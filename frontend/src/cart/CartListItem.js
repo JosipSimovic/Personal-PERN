@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Card from "../shared/components/UI/Card";
 import { useSendRequest } from "../shared/hooks/http-request-hook";
 import { useDispatch } from "react-redux";
@@ -16,6 +22,7 @@ const CartListItem = (props) => {
 
   const [itemAmount, setItemAmount] = useState(item.amount);
   const { isLoading, sendRequest, error, clearError } = useSendRequest();
+  const initialRender = useRef(true);
 
   const dispatch = useDispatch();
 
@@ -48,24 +55,29 @@ const CartListItem = (props) => {
   };
 
   useEffect(() => {
-    const updateAmountDb = async () => {
-      try {
-        await sendRequest(
-          `${process.env.REACT_APP_USER_URL}/updateCart`,
-          "PATCH",
-          JSON.stringify({
-            uid: auth.userId,
-            pid: item.id,
-            amount: itemAmount,
-          }),
-          {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + auth.token,
-          }
-        );
-      } catch (e) {}
-    };
-    updateAmountDb();
+    if (!initialRender.current) {
+      const updateAmountDb = async () => {
+        try {
+          await sendRequest(
+            `${process.env.REACT_APP_USER_URL}/updateCart`,
+            "PATCH",
+            JSON.stringify({
+              uid: auth.userId,
+              pid: item.id,
+              amount: itemAmount,
+            }),
+            {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + auth.token,
+            }
+          );
+        } catch (e) {}
+      };
+
+      updateAmountDb();
+    } else {
+      initialRender.current = false;
+    }
   }, [auth.token, auth.userId, item.id, itemAmount, sendRequest]);
 
   return (
@@ -99,7 +111,7 @@ const CartListItem = (props) => {
           <div className="amount">
             <button
               onClick={() => {
-                setItemAmount(itemAmount - 1);
+                setItemAmount((itemAmount) => itemAmount - 1);
                 changeAmountHandler(item.id, "minus");
               }}
               disabled={item.amount <= 1}
@@ -109,7 +121,7 @@ const CartListItem = (props) => {
             <span className="counter">{itemAmount}</span>
             <button
               onClick={() => {
-                setItemAmount(itemAmount + 1);
+                setItemAmount((itemAmount) => itemAmount + 1);
                 changeAmountHandler(item.id, "plus");
               }}
             >

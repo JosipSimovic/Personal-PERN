@@ -55,7 +55,7 @@ const OrderSummary = (props) => {
             <div className="summary-div-items">
               {cart.map((product) => {
                 return (
-                  <div className="row">
+                  <div key={product.id} className="row">
                     <div className="col-6 text-start">
                       <p>{product.name}</p>
                     </div>
