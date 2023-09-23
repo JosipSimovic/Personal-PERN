@@ -14,7 +14,7 @@ const EditItemForm = (props) => {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  const [isLoading, sendRequest] = useSendRequest();
+  const { isLoading, sendRequest } = useSendRequest();
 
   const specialChars = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
   const pricePattern = /^\d+(\.\d{1,2})?$/;

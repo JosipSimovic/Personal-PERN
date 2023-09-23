@@ -15,7 +15,7 @@ const insertCartProduct =
 const updateCartProductAmount =
   "UPDATE cart SET amount = $1 WHERE user_id = $2 AND product_id = $3";
 
-const checkIfAdmin = "SELECT * FROM admins WHERE id = $1";
+const checkIfAdmin = "SELECT * FROM admins WHERE admin_id = $1";
 
 module.exports = {
   insertNewUser,

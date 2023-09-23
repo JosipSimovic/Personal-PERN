@@ -15,7 +15,7 @@ const UserItem = (props) => {
               <h3>{item.username}</h3>
               <p>{item.email}</p>
             </div>
-            {item.id !== null && (
+            {item.admin_id !== null && (
               <div className="col-4 text-end">
                 <div>
                   <span className="admin-check">

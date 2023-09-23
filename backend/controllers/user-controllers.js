@@ -37,7 +37,7 @@ const signup = async (req, res, next) => {
     ]);
     userId = result.rows[0].user_id;
   } catch (e) {
-    return next(new HttpError("Could not create new user.", 500));
+    return next(new HttpError("Could not create new user.\n" + e.message, 500));
   }
 
   let token;
@@ -224,7 +224,7 @@ const checkAdmin = async (req, res, body) => {
 const getAllUsers = async (req, res, next) => {
   try {
     const result = await pool.query(
-      "SELECT * FROM users u LEFT JOIN admins a ON a.id = u.user_id"
+      "SELECT * FROM users u LEFT JOIN admins a ON a.admin_id = u.user_id"
     );
 
     if (result) {

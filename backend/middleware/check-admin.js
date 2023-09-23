@@ -12,9 +12,10 @@ module.exports = async (req, res, next) => {
   const admin_id = req.headers.admin_id;
 
   try {
-    const result = await pool.query("SELECT * FROM admins WHERE id = $1", [
-      admin_id,
-    ]);
+    const result = await pool.query(
+      "SELECT * FROM admins WHERE admin_id = $1",
+      [admin_id]
+    );
 
     if (result.rowCount <= 0) {
       throw new HttpError("Authorization failed!", 401);

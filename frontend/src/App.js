@@ -26,7 +26,9 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const sidebarOpenHandler = () => {
-    setSidebarOpen((prevState) => !prevState);
+    if (document.getElementById("nav-bars-button").checkVisibility()) {
+      setSidebarOpen((prevState) => !prevState);
+    }
   };
 
   let routes;

@@ -66,7 +66,7 @@ const setQueryFilters = (filters, page) => {
   // Check if the 'colors' filter is provided and add it to the WHERE clause
   if (filters.colors.length > 0) {
     whereClause.push(
-      `c.color_name IN (${filters.colors
+      `LOWER(c.color_name) IN (${filters.colors
         .map((c, i) => `'${c.toLowerCase()}'`)
         .join(", ")})`
     );

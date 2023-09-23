@@ -44,6 +44,9 @@ const Shop = () => {
       setProductColors(responseData.colors);
       setProducts(responseData.products);
       setMaxPageNumber(responseData.maxPages);
+      if (responseData.maxPages === 1) {
+        setCurrentPage(1);
+      }
     } catch (e) {
       alert(e);
     }

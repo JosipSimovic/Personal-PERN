@@ -55,12 +55,13 @@ const getProductsWithFilters = async (req, res, next) => {
 };
 
 const insertNewProduct = async (req, res, next) => {
-  const { name, description, color, image, price } = req.body;
+  console.log("Creating new product.");
+  //const { name, description, color, image, price } = req.body;
   let result;
 
   // FILL DATABASE FOR TESTING //
   // try {
-  //   for (let i = 0; i < 240; i++) {
+  //   for (let i = 0; i < 115; i++) {
   //     result = await pool.query(queries.insertNewProduct, [
   //       faker.commerce.product(),
   //       faker.commerce.productDescription(),
